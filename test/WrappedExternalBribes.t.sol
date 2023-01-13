@@ -112,7 +112,7 @@ contract WrappedExternalBribesTest is BaseTest {
         vm.stopPrank();
 
         uint256 post = LR.balanceOf(address(owner));
-        assertEq(post - pre, TOKEN_1);
+        assertEq(post - pre, TOKEN_1/2 );
     }
 
     function testWrappedBribesCanClaimOnlyOnce() public {

@@ -75,7 +75,7 @@ contract Voter is IVoter {
     }
 
     modifier onlyNewEpoch(uint _tokenId) {
-        // ensure new epoch since last vote 
+        // ensure new epoch since last vote
         require((block.timestamp / DURATION) * DURATION > lastVoted[_tokenId], "TOKEN_ALREADY_VOTED_THIS_EPOCH");
         _;
     }
@@ -134,6 +134,7 @@ contract Voter is IVoter {
     }
 
     function poke(uint _tokenId) external {
+        require(IVotingEscrow(_ve).isApprovedOrOwner(msg.sender, _tokenId));
         address[] memory _poolVote = poolVote[_tokenId];
         uint _poolCnt = _poolVote.length;
         uint256[] memory _weights = new uint256[](_poolCnt);
