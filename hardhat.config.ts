@@ -5,10 +5,7 @@ import "@typechain/hardhat";
 import "hardhat-preprocessor";
 import "hardhat-abi-exporter";
 
-import "./tasks/accounts";
 import "./tasks/deploy";
-
-import fs from "fs";
 import { resolve } from "path";
 
 import { config as dotenvConfig } from "dotenv";
@@ -16,36 +13,18 @@ import { HardhatUserConfig, task } from "hardhat/config";
 
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
-const remappings = fs
-  .readFileSync("remappings.txt", "utf8")
-  .split("\n")
-  .filter(Boolean)
-  .map((line) => line.trim().split("="));
-
 const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       initialBaseFeePerGas: 0,
-      forking: {
-        url: `https://opt-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
-        blockNumber: 16051852
-      }
     },
-    opera: {
-      url: "https://rpc.fantom.network",
-      accounts: [process.env.PRIVATE_KEY!],
+    mainnet: {
+      url: "https://evm.kava.io",
+      accounts: [process.env.PRIVATE_KEY!, process.env.PRIVATE_KEY_ADMIN!]
     },
-    ftmTestnet: {
-      url: "https://rpc.testnet.fantom.network",
-      accounts: [process.env.PRIVATE_KEY!],
-    },
-    optimisticEthereum: {
-      url: "https://mainnet.optimism.io",
-      accounts: [process.env.PRIVATE_KEY!],
-    },
-    optimisticKovan: {
-      url: "https://kovan.optimism.io",
-      accounts: [process.env.PRIVATE_KEY!],
+    testnet: {
+      url: "https://evm.testnet.kava.io",
+      accounts: [process.env.PRIVATE_KEY!, process.env.PRIVATE_KEY_ADMIN!]
     },
   },
   solidity: {
@@ -57,31 +36,29 @@ const config: HardhatUserConfig = {
       },
     },
   },
-  // This fully resolves paths for imports in the ./lib directory for Hardhat
-  preprocess: {
-    eachLine: (hre) => ({
-      transform: (line: string) => {
-        if (!line.match(/^\s*import /i)) {
-          return line;
-        }
-
-        const remapping = remappings.find(([find]) => line.match('"' + find));
-        if (!remapping) {
-          return line;
-        }
-
-        const [find, replace] = remapping;
-        return line.replace('"' + find, '"' + replace);
-      },
-    }),
-  },
   etherscan: {
     apiKey: {
-      opera: process.env.FTM_SCAN_API_KEY!,
-      ftmTestnet: process.env.FTM_SCAN_API_KEY!,
-      optimisticEthereum: process.env.OP_SCAN_API_KEY!,
-      optimisticKovan: process.env.OP_SCAN_API_KEY!,
-    }
+      testnet: 'x',
+      mainnet: 'x'
+    },
+    customChains: [
+      {
+        network: "mainnet",
+        chainId: 2222,
+        urls: {
+          apiURL: "https://explorer.kava.io/api",
+          browserURL: "https://explorer.kava.io"
+        }
+      },
+      { // npx hardhat verify --list-networks
+        network: "testnet",
+        chainId: 2221,
+        urls: {
+          apiURL: "https://explorer.testnet.kava.io/api",
+          browserURL: "https://explorer.testnet.kava.io"
+        }
+      }
+    ]
   }
 };
 

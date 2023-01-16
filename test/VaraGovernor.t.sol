@@ -1,9 +1,9 @@
 pragma solidity 0.8.13;
 
 import "./BaseTest.sol";
-import "contracts/VeloGovernor.sol";
+import "contracts/VaraGovernor.sol";
 
-contract VeloGovernorTest is BaseTest {
+contract VaraGovernorTest is BaseTest {
     VotingEscrow escrow;
     GaugeFactory gaugeFactory;
     BribeFactory bribeFactory;
@@ -12,7 +12,7 @@ contract VeloGovernorTest is BaseTest {
     Minter minter;
     Gauge gauge;
     InternalBribe bribe;
-    VeloGovernor governor;
+    VaraGovernor governor;
 
     function setUp() public {
         deployOwners();
@@ -22,18 +22,18 @@ contract VeloGovernorTest is BaseTest {
         amounts[0] = 2e25;
         amounts[1] = 1e25;
         amounts[2] = 1e25;
-        mintVelo(owners, amounts);
+        mintVara(owners, amounts);
 
         VeArtProxy artProxy = new VeArtProxy();
-        escrow = new VotingEscrow(address(VELO), address(artProxy));
+        escrow = new VotingEscrow(address(VARA), address(artProxy));
 
-        VELO.approve(address(escrow), 97 * TOKEN_1);
+        VARA.approve(address(escrow), 97 * TOKEN_1);
         escrow.create_lock(97 * TOKEN_1, 4 * 365 * 86400);
         vm.roll(block.number + 1);
 
         // owner2 owns less than quorum, 3%
         vm.startPrank(address(owner2));
-        VELO.approve(address(escrow), 3 * TOKEN_1);
+        VARA.approve(address(escrow), 3 * TOKEN_1);
         escrow.create_lock(3 * TOKEN_1, 4 * 365 * 86400);
         vm.roll(block.number + 1);
         vm.stopPrank();
@@ -54,16 +54,16 @@ contract VeloGovernorTest is BaseTest {
 
         minter = new Minter(address(voter), address(escrow), address(distributor));
         distributor.setDepositor(address(minter));
-        VELO.setMinter(address(minter));
+        VARA.setMinter(address(minter));
 
-        VELO.approve(address(gaugeFactory), 15 * TOKEN_100K);
+        VARA.approve(address(gaugeFactory), 15 * TOKEN_100K);
         voter.createGauge(address(pair));
         address gaugeAddress = voter.gauges(address(pair));
         address bribeAddress = voter.internal_bribes(gaugeAddress);
         gauge = Gauge(gaugeAddress);
         bribe = InternalBribe(bribeAddress);
 
-        governor = new VeloGovernor(escrow);
+        governor = new VaraGovernor(escrow);
         voter.setGovernor(address(governor));
     }
 
@@ -89,10 +89,10 @@ contract VeloGovernorTest is BaseTest {
         vm.stopPrank();
     }
 
-    function testVeVeloMergesAutoDelegates() public {
+    function testVeVaraMergesAutoDelegates() public {
         // owner2 + owner3 > quorum
         vm.startPrank(address(owner3));
-        VELO.approve(address(escrow), 3 * TOKEN_1);
+        VARA.approve(address(escrow), 3 * TOKEN_1);
         escrow.create_lock(3 * TOKEN_1, 4 * 365 * 86400);
         vm.roll(block.number + 1);
         uint256 pre2 = escrow.getVotes(address(owner2));

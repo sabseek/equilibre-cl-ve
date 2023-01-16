@@ -12,8 +12,8 @@ contract OracleTest is BaseTest {
         mintStables();
         uint256[] memory amounts = new uint256[](1);
         amounts[0] = 1e25;
-        mintVelo(owners, amounts);
-        escrow = VotingEscrow(address(VELO));
+        mintVara(owners, amounts);
+        escrow = VotingEscrow(address(VARA));
     }
 
     function confirmTokensForFraxUsdc() public {

@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.0;
 
-import {IVotes} from "openzeppelin-contracts/contracts/governance/utils/IVotes.sol";
+import {IVotes} from "@openzeppelin/contracts/governance/utils/IVotes.sol";
 import {L2Governor} from "contracts/governance/L2Governor.sol";
 
 /**

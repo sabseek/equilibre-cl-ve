@@ -2,5 +2,4 @@ ds-test/=lib/ds-test/src/
 forge-std/=lib/forge-std/src/
 solmate/=lib/solmate/src/
 @openzeppelin/=node_modules/@openzeppelin/
-openzeppelin-contracts/=node_modules/@openzeppelin/
 utils/=test/utils/

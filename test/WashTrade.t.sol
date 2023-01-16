@@ -19,30 +19,30 @@ contract WashTradeTest is BaseTest {
         mintStables();
         uint256[] memory amounts = new uint256[](1);
         amounts[0] = 1e25;
-        mintVelo(owners, amounts);
+        mintVara(owners, amounts);
 
         VeArtProxy artProxy = new VeArtProxy();
-        escrow = new VotingEscrow(address(VELO), address(artProxy));
+        escrow = new VotingEscrow(address(VARA), address(artProxy));
     }
 
     function createLock() public {
         deployBaseCoins();
 
-        VELO.approve(address(escrow), TOKEN_1);
+        VARA.approve(address(escrow), TOKEN_1);
         escrow.create_lock(TOKEN_1, 4 * 365 * 86400);
         vm.roll(block.number + 1); // fwd 1 block because escrow.balanceOfNFT() returns 0 in same block
         assertGt(escrow.balanceOfNFT(1), 995063075414519385);
-        assertEq(VELO.balanceOf(address(escrow)), TOKEN_1);
+        assertEq(VARA.balanceOf(address(escrow)), TOKEN_1);
     }
 
     function votingEscrowMerge() public {
         createLock();
 
-        VELO.approve(address(escrow), TOKEN_1);
+        VARA.approve(address(escrow), TOKEN_1);
         escrow.create_lock(TOKEN_1, 4 * 365 * 86400);
         vm.roll(block.number + 1);
         assertGt(escrow.balanceOfNFT(2), 995063075414519385);
-        assertEq(VELO.balanceOf(address(escrow)), 2 * TOKEN_1);
+        assertEq(VARA.balanceOf(address(escrow)), 2 * TOKEN_1);
         escrow.merge(2, 1);
         assertGt(escrow.balanceOfNFT(1), 1990039602248405587);
         assertEq(escrow.balanceOfNFT(2), 0);
@@ -91,7 +91,7 @@ contract WashTradeTest is BaseTest {
         tokens[0] = address(USDC);
         tokens[1] = address(FRAX);
         tokens[2] = address(DAI);
-        tokens[3] = address(VELO);
+        tokens[3] = address(VARA);
         voter.initialize(tokens, address(owner));
 
         assertEq(voter.length(), 0);
@@ -100,7 +100,7 @@ contract WashTradeTest is BaseTest {
     function deployPairFactoryGauge() public {
         deployVoter();
 
-        VELO.approve(address(gaugeFactory), 5 * TOKEN_100K);
+        VARA.approve(address(gaugeFactory), 5 * TOKEN_100K);
         voter.createGauge(address(pair3));
         assertFalse(voter.gauges(address(pair3)) == address(0));
 

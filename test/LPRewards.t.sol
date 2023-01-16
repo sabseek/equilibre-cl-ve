@@ -17,12 +17,12 @@ contract LPRewardsTest is BaseTest {
         uint256[] memory amounts = new uint256[](2);
         amounts[0] = 2 * TOKEN_1M; // use 1/2 for veNFT position
         amounts[1] = TOKEN_1M;
-        mintVelo(owners, amounts);
+        mintVara(owners, amounts);
 
-        // give owner1 veVELO
+        // give owner1 veVARA
         VeArtProxy artProxy = new VeArtProxy();
-        escrow = new VotingEscrow(address(VELO), address(artProxy));
-        VELO.approve(address(escrow), TOKEN_1M);
+        escrow = new VotingEscrow(address(VARA), address(artProxy));
+        VARA.approve(address(escrow), TOKEN_1M);
         escrow.create_lock(TOKEN_1M, 4 * 365 * 86400);
 
         deployPairFactoryAndRouter();
@@ -35,12 +35,12 @@ contract LPRewardsTest is BaseTest {
         tokens[0] = address(USDC);
         tokens[1] = address(FRAX);
         tokens[2] = address(DAI);
-        tokens[3] = address(VELO);
+        tokens[3] = address(VARA);
         voter.initialize(tokens, address(owner));
         escrow.setVoter(address(voter));
     }
 
-    function testLPsEarnEqualVeloBasedOnVeVelo() public {
+    function testLPsEarnEqualVaraBasedOnVeVara() public {
         // owner1 deposits LP
         USDC.approve(address(router), 1e12);
         FRAX.approve(address(router), TOKEN_1M);
@@ -67,7 +67,7 @@ contract LPRewardsTest is BaseTest {
         vm.roll(block.number + 1);
 
         address[] memory rewards = new address[](1);
-        rewards[0] = address(VELO);
+        rewards[0] = address(VARA);
 
         // check derived balance is the same
         assertEq(gauge.derivedBalance(address(owner)), gauge.derivedBalance(address(owner2)));

@@ -19,10 +19,10 @@ contract MinterTest is BaseTest {
         mintStables();
         uint256[] memory amounts = new uint256[](1);
         amounts[0] = 1e25;
-        mintVelo(owners, amounts);
+        mintVara(owners, amounts);
 
         VeArtProxy artProxy = new VeArtProxy();
-        escrow = new VotingEscrow(address(VELO), address(artProxy));
+        escrow = new VotingEscrow(address(VARA), address(artProxy));
         factory = new PairFactory();
         router = new Router(address(factory), address(owner));
         gaugeFactory = new GaugeFactory();
@@ -31,28 +31,28 @@ contract MinterTest is BaseTest {
 
         address[] memory tokens = new address[](2);
         tokens[0] = address(FRAX);
-        tokens[1] = address(VELO);
+        tokens[1] = address(VARA);
         voter.initialize(tokens, address(owner));
-        VELO.approve(address(escrow), TOKEN_1);
+        VARA.approve(address(escrow), TOKEN_1);
         escrow.create_lock(TOKEN_1, 4 * 365 * 86400);
         distributor = new RewardsDistributor(address(escrow));
         escrow.setVoter(address(voter));
 
         minter = new Minter(address(voter), address(escrow), address(distributor));
         distributor.setDepositor(address(minter));
-        VELO.setMinter(address(minter));
+        VARA.setMinter(address(minter));
 
-        VELO.approve(address(router), TOKEN_1);
+        VARA.approve(address(router), TOKEN_1);
         FRAX.approve(address(router), TOKEN_1);
-        router.addLiquidity(address(FRAX), address(VELO), false, TOKEN_1, TOKEN_1, 0, 0, address(owner), block.timestamp);
+        router.addLiquidity(address(FRAX), address(VARA), false, TOKEN_1, TOKEN_1, 0, 0, address(owner), block.timestamp);
 
-        address pair = router.pairFor(address(FRAX), address(VELO), false);
+        address pair = router.pairFor(address(FRAX), address(VARA), false);
 
-        VELO.approve(address(voter), 5 * TOKEN_100K);
+        VARA.approve(address(voter), 5 * TOKEN_100K);
         voter.createGauge(pair);
         vm.roll(block.number + 1); // fwd 1 block because escrow.balanceOfNFT() returns 0 in same block
         assertGt(escrow.balanceOfNFT(1), 995063075414519385);
-        assertEq(VELO.balanceOf(address(escrow)), TOKEN_1);
+        assertEq(VARA.balanceOf(address(escrow)), TOKEN_1);
 
         address[] memory pools = new address[](1);
         pools[0] = pair;
@@ -72,7 +72,7 @@ contract MinterTest is BaseTest {
         assertEq(escrow.ownerOf(2), address(owner));
         assertEq(escrow.ownerOf(3), address(0));
         vm.roll(block.number + 1);
-        assertEq(VELO.balanceOf(address(minter)), 19 * TOKEN_1M);
+        assertEq(VARA.balanceOf(address(minter)), 19 * TOKEN_1M);
     }
 
     function testMinterWeeklyDistribute() public {
@@ -96,7 +96,7 @@ contract MinterTest is BaseTest {
         uint256 weekly = minter.weekly();
         console2.log(weekly);
         console2.log(minter.calculate_growth(weekly));
-        console2.log(VELO.totalSupply());
+        console2.log(VARA.totalSupply());
         console2.log(escrow.totalSupply());
 
         vm.warp(block.timestamp + 86400 * 7);

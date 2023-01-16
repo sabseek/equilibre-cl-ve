@@ -240,7 +240,8 @@ contract ExternalBribe is IBribe {
                 _bal = checkpoints[tokenId][_index].balanceOf;
                 // get supply of last checkpoint in this epoch
                 _supply = supplyCheckpoints[getPriorSupplyIndex(_currTs + DURATION)].supply;
-                reward += _bal * tokenRewardsPerEpoch[token][_currTs] / _supply;
+                if( _supply > 0 ) // prevent div by 0
+                    reward += _bal * tokenRewardsPerEpoch[token][_currTs] / _supply;
                 _currTs += DURATION;
             }
         }

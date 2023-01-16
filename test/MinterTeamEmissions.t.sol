@@ -18,13 +18,13 @@ contract MinterTeamEmissions is BaseTest {
         deployOwners();
         deployCoins();
         mintStables();
-        uint256[] memory amountsVelo = new uint256[](2);
-        amountsVelo[0] = 1e25;
-        amountsVelo[1] = 1e25;
-        mintVelo(owners, amountsVelo);
+        uint256[] memory amountsVara = new uint256[](2);
+        amountsVara[0] = 1e25;
+        amountsVara[1] = 1e25;
+        mintVara(owners, amountsVara);
         team = new TestOwner();
         VeArtProxy artProxy = new VeArtProxy();
-        escrow = new VotingEscrow(address(VELO), address(artProxy));
+        escrow = new VotingEscrow(address(VARA), address(artProxy));
         factory = new PairFactory();
         router = new Router(address(factory), address(owner));
         gaugeFactory = new GaugeFactory();
@@ -38,9 +38,9 @@ contract MinterTeamEmissions is BaseTest {
 
         address[] memory tokens = new address[](2);
         tokens[0] = address(FRAX);
-        tokens[1] = address(VELO);
+        tokens[1] = address(VARA);
         voter.initialize(tokens, address(owner));
-        VELO.approve(address(escrow), TOKEN_1);
+        VARA.approve(address(escrow), TOKEN_1);
         escrow.create_lock(TOKEN_1, 4 * 365 * 86400);
         distributor = new RewardsDistributor(address(escrow));
         escrow.setVoter(address(voter));
@@ -51,13 +51,13 @@ contract MinterTeamEmissions is BaseTest {
             address(distributor)
         );
         distributor.setDepositor(address(minter));
-        VELO.setMinter(address(minter));
+        VARA.setMinter(address(minter));
 
-        VELO.approve(address(router), TOKEN_1);
+        VARA.approve(address(router), TOKEN_1);
         FRAX.approve(address(router), TOKEN_1);
         router.addLiquidity(
             address(FRAX),
-            address(VELO),
+            address(VARA),
             false,
             TOKEN_1,
             TOKEN_1,
@@ -67,13 +67,13 @@ contract MinterTeamEmissions is BaseTest {
             block.timestamp
         );
 
-        address pair = router.pairFor(address(FRAX), address(VELO), false);
+        address pair = router.pairFor(address(FRAX), address(VARA), false);
 
-        VELO.approve(address(voter), 5 * TOKEN_100K);
+        VARA.approve(address(voter), 5 * TOKEN_100K);
         voter.createGauge(pair);
         vm.roll(block.number + 1); // fwd 1 block because escrow.balanceOfNFT() returns 0 in same block
         assertGt(escrow.balanceOfNFT(1), 995063075414519385);
-        assertEq(VELO.balanceOf(address(escrow)), TOKEN_1);
+        assertEq(VARA.balanceOf(address(escrow)), TOKEN_1);
 
         address[] memory pools = new address[](1);
         pools[0] = pair;
@@ -89,18 +89,18 @@ contract MinterTeamEmissions is BaseTest {
         assertEq(escrow.ownerOf(2), address(owner));
         assertEq(escrow.ownerOf(3), address(0));
         vm.roll(block.number + 1);
-        assertEq(VELO.balanceOf(address(minter)), 14 * TOKEN_1M);
+        assertEq(VARA.balanceOf(address(minter)), 14 * TOKEN_1M);
 
-        uint256 before = VELO.balanceOf(address(owner));
+        uint256 before = VARA.balanceOf(address(owner));
         minter.update_period(); // initial period week 1
-        uint256 after_ = VELO.balanceOf(address(owner));
+        uint256 after_ = VARA.balanceOf(address(owner));
         assertEq(minter.weekly(), 15 * TOKEN_1M);
         assertEq(after_ - before, 0);
         vm.warp(block.timestamp + 86400 * 7);
         vm.roll(block.number + 1);
-        before = VELO.balanceOf(address(owner));
+        before = VARA.balanceOf(address(owner));
         minter.update_period(); // initial period week 2
-        after_ = VELO.balanceOf(address(owner));
+        after_ = VARA.balanceOf(address(owner));
         assertLt(minter.weekly(), 15 * TOKEN_1M); // <15M for week shift
     }
 
@@ -127,35 +127,35 @@ contract MinterTeamEmissions is BaseTest {
 
         vm.warp(block.timestamp + 86400 * 7);
         vm.roll(block.number + 1);
-        uint256 beforeTeamSupply = VELO.balanceOf(address(team));
+        uint256 beforeTeamSupply = VARA.balanceOf(address(team));
         uint256 weekly = minter.weekly_emission();
         uint256 growth = minter.calculate_growth(weekly);
         minter.update_period(); // new period
-        uint256 afterTeamSupply = VELO.balanceOf(address(team));
-        uint256 newTeamVelo = afterTeamSupply - beforeTeamSupply;
-        assertEq(((weekly + growth + newTeamVelo) * 30) / 1000, newTeamVelo); // check 3% of new emissions to team
+        uint256 afterTeamSupply = VARA.balanceOf(address(team));
+        uint256 newTeamVara = afterTeamSupply - beforeTeamSupply;
+        assertEq(((weekly + growth + newTeamVara) * 30) / 1000, newTeamVara); // check 3% of new emissions to team
 
         vm.warp(block.timestamp + 86400 * 7);
         vm.roll(block.number + 1);
-        beforeTeamSupply = VELO.balanceOf(address(team));
+        beforeTeamSupply = VARA.balanceOf(address(team));
         weekly = minter.weekly_emission();
         growth = minter.calculate_growth(weekly);
         minter.update_period(); // new period
-        afterTeamSupply = VELO.balanceOf(address(team));
-        newTeamVelo = afterTeamSupply - beforeTeamSupply;
-        assertEq(((weekly + growth + newTeamVelo) * 30) / 1000, newTeamVelo); // check 3% of new emissions to team
+        afterTeamSupply = VARA.balanceOf(address(team));
+        newTeamVara = afterTeamSupply - beforeTeamSupply;
+        assertEq(((weekly + growth + newTeamVara) * 30) / 1000, newTeamVara); // check 3% of new emissions to team
 
-        // rate is right even when VELO is sent to Minter contract
+        // rate is right even when VARA is sent to Minter contract
         vm.warp(block.timestamp + 86400 * 7);
         vm.roll(block.number + 1);
-        owner2.transfer(address(VELO), address(minter), 1e25);
-        beforeTeamSupply = VELO.balanceOf(address(team));
+        owner2.transfer(address(VARA), address(minter), 1e25);
+        beforeTeamSupply = VARA.balanceOf(address(team));
         weekly = minter.weekly_emission();
         growth = minter.calculate_growth(weekly);
         minter.update_period(); // new period
-        afterTeamSupply = VELO.balanceOf(address(team));
-        newTeamVelo = afterTeamSupply - beforeTeamSupply;
-        assertEq(((weekly + growth + newTeamVelo) * 30) / 1000, newTeamVelo); // check 3% of new emissions to team
+        afterTeamSupply = VARA.balanceOf(address(team));
+        newTeamVara = afterTeamSupply - beforeTeamSupply;
+        assertEq(((weekly + growth + newTeamVara) * 30) / 1000, newTeamVara); // check 3% of new emissions to team
     }
 
     function testChangeTeamEmissionsRate() public {
@@ -175,12 +175,12 @@ contract MinterTeamEmissions is BaseTest {
 
         vm.warp(block.timestamp + 86400 * 7);
         vm.roll(block.number + 1);
-        uint256 beforeTeamSupply = VELO.balanceOf(address(team));
+        uint256 beforeTeamSupply = VARA.balanceOf(address(team));
         uint256 weekly = minter.weekly_emission();
         uint256 growth = minter.calculate_growth(weekly);
         minter.update_period(); // new period
-        uint256 afterTeamSupply = VELO.balanceOf(address(team));
-        uint256 newTeamVelo = afterTeamSupply - beforeTeamSupply;
-        assertEq(((weekly + growth + newTeamVelo) * 50) / 1000, newTeamVelo); // check 5% of new emissions to team
+        uint256 afterTeamSupply = VARA.balanceOf(address(team));
+        uint256 newTeamVara = afterTeamSupply - beforeTeamSupply;
+        assertEq(((weekly + growth + newTeamVara) * 50) / 1000, newTeamVara); // check 5% of new emissions to team
     }
 }

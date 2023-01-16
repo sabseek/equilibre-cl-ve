@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
-import {IERC721, IERC721Metadata} from "openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Metadata.sol";
-import {IVotes} from "openzeppelin-contracts/contracts/governance/utils/IVotes.sol";
-import {IERC721Receiver} from "openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol";
+import {IERC721, IERC721Metadata} from "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
+import {IVotes} from "@openzeppelin/contracts/governance/utils/IVotes.sol";
+import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {IERC20} from "contracts/interfaces/IERC20.sol";
 import {IVeArtProxy} from "contracts/interfaces/IVeArtProxy.sol";
 import {IVotingEscrow} from "contracts/interfaces/IVotingEscrow.sol";
@@ -87,7 +87,7 @@ contract VotingEscrow is IERC721, IERC721Metadata, IVotes {
     uint internal tokenId;
 
     /// @notice Contract constructor
-    /// @param token_addr `VELO` token address
+    /// @param token_addr `VARA` token address
     constructor(address token_addr, address art_proxy) {
         token = token_addr;
         voter = msg.sender;
