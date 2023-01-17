@@ -10,11 +10,7 @@ const testnetArgs = {
     teamMultisig: TEAM_MULTISIG,
     emergencyCouncil: TEAM_EOA,
     merkleRoot: "0x66734e7e3a2528b9a170c43d7413392ae1462d9c07392d4261924c047cc3d97d",
-    tokenWhitelist: [
-        "0x66Cd011aDfF20f2B4bA60cDd30099B5E09CcACd1", // BUSD
-        WETH,
-        USDC
-    ],
+    tokenWhitelist: [],
     partnerAddrs: [
         TEAM_EOA, // TEST
     ],
