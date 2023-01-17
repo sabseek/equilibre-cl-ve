@@ -1,23 +1,4 @@
 import { ethers } from "ethers";
-
-const TOKEN_DECIMALS = ethers.BigNumber.from("10").pow(
-  ethers.BigNumber.from("18")
-);
-const MILLION = ethers.BigNumber.from("10").pow(ethers.BigNumber.from("6"));
-
-const FOUR_MILLION = ethers.BigNumber.from("4")
-  .mul(MILLION)
-  .mul(TOKEN_DECIMALS);
-const TEN_MILLION = ethers.BigNumber.from("10")
-  .mul(MILLION)
-  .mul(TOKEN_DECIMALS);
-const TWENTY_MILLION = ethers.BigNumber.from("20")
-  .mul(MILLION)
-  .mul(TOKEN_DECIMALS);
-const PARTNER_MAX = ethers.BigNumber.from("78")
-  .mul(MILLION)
-  .mul(TOKEN_DECIMALS);
-
 const TEAM_MULTISIG = "0x79dE631fFb7291Acdb50d2717AE32D44D5D00732";
 const TEAM_EOA = "0x7cef2432A2690168Fb8eb7118A74d5f8EfF9Ef55";
 
@@ -41,9 +22,8 @@ const mainnet_config = {
     TEAM_EOA, // VARA
   ],
   partnerAmts: [
-    TEN_MILLION,
+    ethers.BigNumber.from("30300000"),
   ],
-  partnerMax: PARTNER_MAX,
 };
 
 export default mainnet_config;

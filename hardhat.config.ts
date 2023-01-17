@@ -5,7 +5,6 @@ import "@typechain/hardhat";
 import "hardhat-preprocessor";
 import "hardhat-abi-exporter";
 
-import "./tasks/deploy";
 import { resolve } from "path";
 
 import { config as dotenvConfig } from "dotenv";
@@ -20,11 +19,11 @@ const config: HardhatUserConfig = {
     },
     mainnet: {
       url: "https://evm.kava.io",
-      accounts: [process.env.PRIVATE_KEY!, process.env.PRIVATE_KEY_ADMIN!]
+      accounts: [process.env.PRIVATE_KEY_ADMIN!]
     },
     testnet: {
       url: "https://evm.testnet.kava.io",
-      accounts: [process.env.PRIVATE_KEY!, process.env.PRIVATE_KEY_ADMIN!]
+      accounts: [process.env.PRIVATE_KEY_ADMIN!]
     },
   },
   solidity: {

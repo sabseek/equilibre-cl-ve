@@ -11,7 +11,7 @@ import "contracts/interfaces/IVotingEscrow.sol";
 // codifies the minting rules as per ve(3,3), abstracted from the token to support any token that allows minting
 
 contract Minter is IMinter {
-    uint internal constant WEEK = 86400 * 2; // allows minting once per week (reset every Thursday 00:00 UTC)
+    uint internal constant WEEK = 86400 * 7; // allows minting once per week (reset every Thursday 00:00 UTC)
     uint internal constant EMISSION = 2000;
     uint internal constant TAIL_EMISSION = 2;
     uint internal constant PRECISION = 1000;
