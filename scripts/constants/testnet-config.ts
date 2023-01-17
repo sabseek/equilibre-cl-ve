@@ -1,32 +1,16 @@
 import { ethers } from "ethers";
-
-const TOKEN_DECIMALS = ethers.BigNumber.from("10").pow(
-  ethers.BigNumber.from("18")
-);
-const MILLION = ethers.BigNumber.from("10").pow(ethers.BigNumber.from("6"));
-
-const FOUR_MILLION = ethers.BigNumber.from("4")
-  .mul(MILLION)
-  .mul(TOKEN_DECIMALS);
-const TWENTY_MILLION = ethers.BigNumber.from("20")
-  .mul(MILLION)
-  .mul(TOKEN_DECIMALS);
-const PARTNER_MAX = ethers.BigNumber.from("78")
-  .mul(MILLION)
-  .mul(TOKEN_DECIMALS);
-
 const TEAM_MULTISIG = "0x79dE631fFb7291Acdb50d2717AE32D44D5D00732";
 const TEAM_EOA = "0x7cef2432A2690168Fb8eb7118A74d5f8EfF9Ef55";
 
 const testnetArgs = {
   // Tokens
-  WETH: "0xFa95D53e0B6e82b2137Faa70FD7E4a4DC70Da449",
+  WETH: "0x6C2A54580666D69CF904a82D8180F198C03ece67",
   USDC: "0x43D8814FdFB9B8854422Df13F1c66e34E4fa91fD",
 
   // Addresses
   teamEOA: TEAM_EOA,
   teamMultisig: TEAM_MULTISIG,
-  emergencyCouncil: "0x7cef2432A2690168Fb8eb7118A74d5f8EfF9Ef55",
+  emergencyCouncil: TEAM_EOA,
 
   merkleRoot:
     "0x66734e7e3a2528b9a170c43d7413392ae1462d9c07392d4261924c047cc3d97d",
@@ -37,28 +21,11 @@ const testnetArgs = {
     "0x3e22e37Cb472c872B5dE121134cFD1B57Ef06560",
   ],
   partnerAddrs: [
-    "0x52f02a075191F69E30917effc66087ad981Db703",
-    "0x82D54397B88CE80Ea2Df9aD049213ACb47dc2523",
-    "0x6122a6A39a6C3f2BCd96B929Fc2066204FDb125a",
-    "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
-    "0xDEcc3156Bd9826a0034D829C35Dc3679Be5ac529",
-    "0x203693De100D1527637167d89dce39D876B7821B",
-    "0x4F7d04d96732515052751929362Ce6DA7622caCe",
-    "0x53e0B897EAE600B2F6855FCe4a42482E9229D2c2",
     TEAM_EOA, // TEST
   ],
   partnerAmts: [
-    TWENTY_MILLION,
-    FOUR_MILLION,
-    FOUR_MILLION,
-    FOUR_MILLION,
-    FOUR_MILLION,
-    FOUR_MILLION,
-    FOUR_MILLION,
-    FOUR_MILLION,
-    FOUR_MILLION,
+    ethers.BigNumber.from("30300000"),
   ],
-  partnerMax: PARTNER_MAX,
 };
 
 export default testnetArgs;

@@ -64,7 +64,7 @@ async function main() {
     CONTRACTS.Vara = vara.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await vara.deployTransaction.wait(20);
+            await vara.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: vara.address});
         }
     } catch (e) {
@@ -76,7 +76,7 @@ async function main() {
     CONTRACTS.GaugeFactory = gaugeFactory.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await gaugeFactory.deployTransaction.wait(20);
+            await gaugeFactory.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: gaugeFactory.address});
         }
     } catch (e) {
@@ -88,7 +88,7 @@ async function main() {
     CONTRACTS.BribeFactory = bribeFactory.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await bribeFactory.deployTransaction.wait(20);
+            await bribeFactory.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: bribeFactory.address});
         }
     } catch (e) {
@@ -100,7 +100,7 @@ async function main() {
     CONTRACTS.PairFactory = pairFactory.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await pairFactory.deployTransaction.wait(20);
+            await pairFactory.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: pairFactory.address});
         }
     } catch (e) {
@@ -112,7 +112,7 @@ async function main() {
     CONTRACTS.Router = router.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await router.deployTransaction.wait(20);
+            await router.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: router.address, constructorArguments: [pairFactory.address, CONFIG.WETH]});
         }
     } catch (e) {
@@ -124,7 +124,7 @@ async function main() {
     CONTRACTS.Library = library.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await library.deployTransaction.wait(20);
+            await library.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: library.address, constructorArguments: [router.address]});
         }
     } catch (e) {
@@ -136,7 +136,7 @@ async function main() {
     CONTRACTS.VeArtProxy = artProxy.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await artProxy.deployTransaction.wait(20);
+            await artProxy.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: artProxy.address, constructorArguments: []});
         }
     } catch (e) {
@@ -148,7 +148,7 @@ async function main() {
     CONTRACTS.VotingEscrow = escrow.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await escrow.deployTransaction.wait(20);
+            await escrow.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: escrow.address, constructorArguments: [vara.address, artProxy.address]});
         }
     } catch (e) {
@@ -160,7 +160,7 @@ async function main() {
     CONTRACTS.RewardsDistributor = distributor.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await distributor.deployTransaction.wait(20);
+            await distributor.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: distributor.address, constructorArguments: [escrow.address]});
         }
     } catch (e) {
@@ -177,7 +177,7 @@ async function main() {
     CONTRACTS.Voter = voter.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await voter.deployTransaction.wait(20);
+            await voter.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: distributor.address, constructorArguments: [escrow.address,
                     pairFactory.address,
                     gaugeFactory.address,
@@ -192,7 +192,7 @@ async function main() {
     CONTRACTS.WrappedExternalBribeFactory = externalBribeFactory.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await externalBribeFactory.deployTransaction.wait(20);
+            await externalBribeFactory.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: externalBribeFactory.address, constructorArguments: [voter.address]});
         }
     } catch (e) {
@@ -208,7 +208,7 @@ async function main() {
     CONTRACTS.Minter = minter.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await minter.deployTransaction.wait(20);
+            await minter.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: minter.address, constructorArguments: [voter.address,
                     escrow.address,
                     distributor.address]});
@@ -222,7 +222,7 @@ async function main() {
     CONTRACTS.VaraGovernor = escrow.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await governor.deployTransaction.wait(20);
+            await governor.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: governor.address, constructorArguments: [escrow.address]});
         }
     } catch (e) {
@@ -235,7 +235,7 @@ async function main() {
     CONTRACTS.MerkleClaim = claim.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
-            await claim.deployTransaction.wait(20);
+            await claim.deployTransaction.wait(5);
             await hre.run("verify:verify", {address: claim.address, constructorArguments: [vara.address, CONFIG.merkleRoot]});
         }
     } catch (e) {
