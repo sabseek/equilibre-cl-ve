@@ -1,5 +1,5 @@
 # for verify
-args.js 
+args.js
 
 .env
 
@@ -28,3 +28,6 @@ build
 scripts/xbribes
 # for verify
 Flattened.sol
+
+contracts.json
+.idea

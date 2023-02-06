@@ -30,6 +30,7 @@ import "utils/TestWETH.sol";
 abstract contract BaseTest is Test, TestOwner {
     uint256 constant USDC_1 = 1e6;
     uint256 constant USDC_100K = 1e11; // 1e5 = 100K tokens with 6 decimals
+    uint256 constant USDC_1M = 1e12;
     uint256 constant TOKEN_1 = 1e18;
     uint256 constant TOKEN_100K = 1e23; // 1e5 = 100K tokens with 18 decimals
     uint256 constant TOKEN_1M = 1e24; // 1e6 = 1M tokens with 18 decimals
