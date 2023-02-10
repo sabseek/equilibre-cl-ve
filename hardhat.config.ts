@@ -201,6 +201,16 @@ task("getFees", "getFees")
     });
 
 
+task("merkleRoot", "MerkleClaim.merkleRoot").setAction(async () => {
+    const cfg = await loadCfg();
+    const Main = await ethers.getContractFactory("MerkleClaim")
+    const main = Main.attach(cfg.MerkleClaim);
+    const merkleRoot = await main.merkleRoot();
+    const VARA = await main.VARA();
+    console.log(`merkleRoot: ${merkleRoot}`);
+    console.log(`VARA: ${VARA}`);
+});
+
 const config: HardhatUserConfig = {
     networks: {
         hardhat: {
