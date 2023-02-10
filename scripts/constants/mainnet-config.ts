@@ -9,7 +9,7 @@ const mainnet_config = {
   teamEOA: TEAM_EOA,
   teamMultisig: TEAM_MULTISIG,
   emergencyCouncil: "0x7cef2432A2690168Fb8eb7118A74d5f8EfF9Ef55",
-  merkleRoot: "0x65e546ef767c6b0ed0a8bb47201093fe37dcf19e68417118219502f37b623ee3",
+  merkleRoot: "0x66734e7e3a2528b9a170c43d7413392ae1462d9c07392d4261924c047cc3d97d",
   tokenWhitelist: [],
   partnerAddrs: [
     TEAM_EOA, // VARA

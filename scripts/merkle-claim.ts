@@ -3,8 +3,10 @@ import testnet_config from "./constants/testnet-config";
 
 async function main(){
     const [
+        Vara,
         MerkleClaim
     ] = await Promise.all([
+        hre.ethers.getContractFactory("Vara"),
         hre.ethers.getContractFactory("MerkleClaim")
     ]);
     const network = await hre.ethers.provider.getNetwork();
@@ -12,12 +14,15 @@ async function main(){
     const mainnet = chainId === 2222;
     console.log(`#Network: ${chainId}`);
     const CONFIG = mainnet ? mainnet_config : testnet_config;
-    const vara = '0x671051f3cACA8e6eA4022c82761D3dc04156BC23';
-    const claim = await MerkleClaim.deploy(vara, CONFIG.merkleRoot);
+    const vara = await Vara.deploy();
+    await vara.deployed();
+    const claim = await MerkleClaim.deploy(vara.address, CONFIG.merkleRoot);
     await claim.deployed();
-    console.log('address', claim.address);
-    // await hre.run("verify:verify", {address: claim.address,
-    //     constructorArguments: [vara, CONFIG.merkleRoot]});
+    console.log('vara', vara.address);
+    console.log('merkle', claim.address);
+    await vara.setMerkleClaim(claim.address);
+    await hre.run("verify:verify", {address: claim.address,
+        constructorArguments: [vara.address, CONFIG.merkleRoot]});
 }
 
 main()

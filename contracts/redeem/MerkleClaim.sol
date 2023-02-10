@@ -42,29 +42,27 @@ contract MerkleClaim {
     /// ============ Functions ============
 
     /// @notice Allows claiming tokens if address is part of merkle tree
-    /// @param to address of claimee
     /// @param amount of tokens owed to claimee
     /// @param proof merkle proof to prove address and amount are in tree
     function claim(
-        address to,
         uint256 amount,
         bytes32[] calldata proof
     ) external {
         // Throw if address has already claimed tokens
-        require(!hasClaimed[to], "ALREADY_CLAIMED");
+        require(!hasClaimed[msg.sender], "ALREADY_CLAIMED");
 
         // Verify merkle proof, or revert if not in tree
-        bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(to, amount))));
+        bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(msg.sender, amount))));
         bool isValidLeaf = MerkleProof.verify(proof, merkleRoot, leaf);
         require(isValidLeaf, "NOT_IN_MERKLE");
 
         // Set address to claimed
-        hasClaimed[to] = true;
+        hasClaimed[msg.sender] = true;
 
         // Claim tokens for address
-        require(VARA.claim(to, amount), "CLAIM_FAILED");
+        require(VARA.claim(msg.sender, amount), "CLAIM_FAILED");
 
         // Emit claim event
-        emit Claim(to, amount);
+        emit Claim(msg.sender, amount);
     }
 }

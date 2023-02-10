@@ -68,7 +68,7 @@ describe("Test", function () {
                 new Error(`No proof for wallet ${wallet}.`);
             }
 
-            await main.claim(wallet, amount, proof);
+            await main.claim(amount, proof);
 
         });
     });

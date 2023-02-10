@@ -202,13 +202,19 @@ task("getFees", "getFees")
 
 
 task("merkleRoot", "MerkleClaim.merkleRoot").setAction(async () => {
-    const cfg = await loadCfg();
+    // const cfg = await loadCfg();
     const Main = await ethers.getContractFactory("MerkleClaim")
-    const main = Main.attach(cfg.MerkleClaim);
+    const Vara = await ethers.getContractFactory("Vara")
+    const main = Main.attach('0x6C54e61E0295b6f22d8F91CEd5ddE712f2061eE0');
     const merkleRoot = await main.merkleRoot();
-    const VARA = await main.VARA();
-    console.log(`merkleRoot: ${merkleRoot}`);
-    console.log(`VARA: ${VARA}`);
+    const varaAddress = await main.VARA();
+    const vara = Vara.attach(varaAddress);
+    const merkleClaim = await vara.merkleClaim();
+    const minter = await vara.minter();
+    console.log(`VARA: ${varaAddress}`);
+    console.log(`- Vara.merkleRoot: ${merkleRoot}`);
+    console.log(`- Vara.merkleClaim: ${merkleClaim}`);
+    console.log(`- Vara.minter: ${minter}`);
 });
 
 const config: HardhatUserConfig = {
@@ -224,6 +230,11 @@ const config: HardhatUserConfig = {
             url: "https://evm.testnet.kava.io",
             accounts: [process.env.PRIVATE_KEY!]
         },
+        bsc_testnet: {
+            url: `https://bsc-testnet.public.blastapi.io`,
+            accounts: [process.env.PRIVATE_KEY!]
+        },
+
     },
     solidity: {
         version: "0.8.13",
@@ -237,7 +248,8 @@ const config: HardhatUserConfig = {
     etherscan: {
         apiKey: {
             testnet: 'x',
-            mainnet: 'x'
+            mainnet: 'x',
+            bscTestnet: `${process.env.BSCSCAN}`
         },
         customChains: [
             {
