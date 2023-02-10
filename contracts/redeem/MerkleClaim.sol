@@ -54,7 +54,7 @@ contract MerkleClaim {
         require(!hasClaimed[to], "ALREADY_CLAIMED");
 
         // Verify merkle proof, or revert if not in tree
-        bytes32 leaf = keccak256(abi.encodePacked(to, amount));
+        bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(to, amount))));
         bool isValidLeaf = MerkleProof.verify(proof, merkleRoot, leaf);
         require(isValidLeaf, "NOT_IN_MERKLE");
 

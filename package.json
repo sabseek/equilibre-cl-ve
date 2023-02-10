@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.1",
-    "@openzeppelin/contracts-upgradeable": "^4.8.0"
+    "@openzeppelin/contracts-upgradeable": "^4.8.0",
+    "@openzeppelin/merkle-tree": "^1.0.2"
   },
   "scripts": {
     "test0": "forge test -vv",
