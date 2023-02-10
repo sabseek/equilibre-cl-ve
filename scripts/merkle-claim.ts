@@ -16,8 +16,8 @@ async function main(){
     const claim = await MerkleClaim.deploy(vara, CONFIG.merkleRoot);
     await claim.deployed();
     console.log('address', claim.address);
-    await hre.run("verify:verify", {address: claim.address,
-        constructorArguments: [vara, CONFIG.merkleRoot]});
+    // await hre.run("verify:verify", {address: claim.address,
+    //     constructorArguments: [vara, CONFIG.merkleRoot]});
 }
 
 main()
