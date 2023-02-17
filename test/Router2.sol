@@ -98,5 +98,6 @@ contract NativeTokenTest is BaseTest {
         uint256[] memory expectedOutput = router2.getAmountsOut(TOKEN_1, routes);
         USDC.approve(address(router2), TOKEN_1);
         router2.swapExactETHForTokensSupportingFeeOnTransferTokens{value: TOKEN_1}(expectedOutput[1], routes, address(owner), block.timestamp);
+
     }
 }
