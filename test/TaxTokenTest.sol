@@ -8,111 +8,77 @@ contract TaxTokenTest is BaseTest {
     Pair _pair;
     TaxToken taxToken;
 
-    uint TAX_TOKEN_100K = 100 * 1e9;
+    uint TAX_TOKEN_100K = 100_000 * 1e9;
     uint TAX_TOKEN_1 = 1e9;
-
-    function deploySinglePairWithOwner(address _owner) public {
-        // console.log('balance of', taxToken.balanceOf());
-        taxToken.transfer(_owner, TAX_TOKEN_1);
-        TestOwner(_owner).approve(address(WETH), address(router2), TOKEN_1);
-        TestOwner(_owner).approve(address(taxToken), address(router2), TAX_TOKEN_1);
-        TestOwner(_owner).addLiquidity(payable(address(router2)), address(WETH), address(taxToken), false, TOKEN_1, TAX_TOKEN_1, 0, 0, address(owner), block.timestamp);
-    }
-
-    function deployPair() public {
-        deployOwners();
-        deployCoins();
-        mintStables();
-        uint256[] memory amounts = new uint256[](3);
-        amounts[0] = 2e25;
-        amounts[1] = 1e25;
-        amounts[2] = 1e25;
-        mintWETH(owners, amounts);
-        dealETH(owners, amounts);
-
-        deployPairFactoryAndRouter();
-
+    uint TAX_TOKEN_100 = 100e9;
+    uint TOKEN_100 = 100 * 1e18;
+    uint liquidityAdded;
+    function setUp() public {
+        factory = new PairFactory();
+        WETH = new TestWETH();
+        router2 = new Router2(address(factory), address(WETH));
         taxToken = new TaxToken(address(this));
-        taxToken.initialize( address(router2) );
-
-        deploySinglePairWithOwner(address(owner));
-        deploySinglePairWithOwner(address(owner2));
-
+        taxToken.initialize(address(router2));
         _pair = Pair(factory.getPair(address(taxToken), address(WETH), false));
     }
 
-    function router2AddLiquidityETH() public {
-        deployPair();
-
-        // add initial liquidity from owner
+    function testAddRemoveLiquidity() public {
         taxToken.approve(address(router2), TAX_TOKEN_100K);
-        WETH.approve(address(router2), TAX_TOKEN_100K);
-        router2.addLiquidityETH{value: TAX_TOKEN_100K}(address(taxToken), false, TAX_TOKEN_100K, 0, 0, address(owner), block.timestamp);
+        WETH.approve(address(router2), TOKEN_100);
+
+        uint amountEthBefore = address(this).balance;
+        (,, liquidityAdded) =
+        router2.addLiquidityETH{value : TOKEN_100}(address(taxToken), false, TAX_TOKEN_100K, 0, 0, address(this), block.timestamp);
+        uint amountEthAfter = address(this).balance;
+        uint amountEthAdded = amountEthBefore - amountEthAfter;
+        console2.log('amountEthBefore', amountEthBefore);
+        console2.log('amountEthAfter', amountEthAfter);
+        console2.log('amountEthAdded', amountEthAdded);
+        assertEq(amountEthAfter, amountEthBefore - TOKEN_100);
+        assertEq(amountEthAdded, TOKEN_100);
+
+        _pair.approve(address(router2), liquidityAdded);
+        router2.removeLiquidityETHSupportingFeeOnTransferTokens(address(taxToken), false, liquidityAdded, 0, 0, address(this), block.timestamp);
+        uint amountEthAfterRemove = address(this).balance;
+        console2.log('amountEthAfterRemove', amountEthAfterRemove);
+        assertEq(amountEthAfterRemove, amountEthBefore-1000000);
+
     }
 
-    function router2AddLiquidityETHOwner2() public {
-        router2AddLiquidityETH();
+    function testSwap() public{
 
-        taxToken.transfer(address(owner2), TAX_TOKEN_100K);
-        owner2.approve(address(taxToken), address(router2), TAX_TOKEN_100K);
-        owner2.approve(address(WETH), address(router2), TAX_TOKEN_100K);
-        owner2.addLiquidityETH{value: TAX_TOKEN_100K}(payable(address(router2)), address(taxToken), false, TAX_TOKEN_100K, 0, 0, address(owner), block.timestamp);
-    }
-
-    function testRemoveETHLiquidity() public {
-        router2AddLiquidityETHOwner2();
-
-        uint256 initial_eth = address(this).balance;
-        uint256 initial_usdc = taxToken.balanceOf(address(this));
-        uint256 pair_initial_eth = address(_pair).balance;
-        uint256 pair_initial_usdc = taxToken.balanceOf(address(_pair));
-
-        return;
-        // add liquidity to pool
         taxToken.approve(address(router2), TAX_TOKEN_100K);
-        WETH.approve(address(router2), TAX_TOKEN_100K);
-        (,, uint256 liquidity) = router2.addLiquidityETH{value: TAX_TOKEN_100K}(address(taxToken), false, TAX_TOKEN_100K, 0, 0, address(owner), block.timestamp);
+        WETH.approve(address(router2), TOKEN_100);
 
-        assertEq(address(this).balance, initial_eth - TAX_TOKEN_100K);
-        assertEq(taxToken.balanceOf(address(this)), initial_usdc - TAX_TOKEN_100K);
-
-        (uint256 amountUSDC, uint256 amountETH) = router2.quoteRemoveLiquidity(address(taxToken), address(WETH), false, liquidity);
-        // approve transfer of lp tokens
-        Pair(_pair).approve(address(router2), liquidity);
-        router2.removeLiquidityETHSupportingFeeOnTransferTokens(address(taxToken), false, liquidity, amountUSDC, amountETH, address(owner), block.timestamp);
-
-        assertEq(address(this).balance, initial_eth);
-        assertEq(taxToken.balanceOf(address(this)), initial_usdc);
-        assertEq(address(_pair).balance, pair_initial_eth);
-        assertEq(taxToken.balanceOf(address(_pair)), pair_initial_usdc);
-    }
-
-
-    function testRouterPairGetAmountsOutAndSwapExactTokensForETH() public {
-        router2AddLiquidityETHOwner2();
+        uint amountEthBefore = address(this).balance;
+        (,, liquidityAdded) =
+        router2.addLiquidityETH{value : TOKEN_100}(address(taxToken), false, TAX_TOKEN_100K, 0, 0, address(this), block.timestamp);
+        uint amountEthAfter = address(this).balance;
+        uint amountEthAdded = amountEthBefore - amountEthAfter;
+        console2.log('amountEthBefore', amountEthBefore);
+        console2.log('amountEthAfter', amountEthAfter);
+        console2.log('amountEthAdded', amountEthAdded);
+        assertEq(amountEthAfter, amountEthBefore - TOKEN_100);
+        assertEq(amountEthAdded, TOKEN_100);
 
         Router.route[] memory routes = new Router.route[](1);
         routes[0] = Router.route(address(taxToken), address(WETH), false);
+        uint256[] memory expectedOutput = router2.getAmountsOut(TAX_TOKEN_100, routes);
+        taxToken.approve(address(router2), TAX_TOKEN_100);
 
-        assertEq(router2.getAmountsOut(TAX_TOKEN_1, routes)[1], _pair.getAmountOut(TAX_TOKEN_1, address(taxToken)));
+        console2.log('tokenBalanceBeforeSwap', taxToken.balanceOf(address(this))/1e9);
+        router2.swapExactTokensForETHSupportingFeeOnTransferTokens(TAX_TOKEN_100, expectedOutput[1], routes, address(this), block.timestamp);
+        console2.log('expectedOutput token', expectedOutput[0]/1e9);
+        console2.log('expectedOutput eth', expectedOutput[1]);
+        console2.log('tokenBalanceAfterSwap', taxToken.balanceOf(address(this))/1e9);
+        console2.log('amountEthAfterSwap', (address(this).balance - amountEthAfter));
 
-        uint256[] memory expectedOutput = router2.getAmountsOut(TAX_TOKEN_1, routes);
-        taxToken.approve(address(router2), TAX_TOKEN_1);
-        router2.swapExactTokensForETHSupportingFeeOnTransferTokens(TAX_TOKEN_1, 0, routes, address(owner), block.timestamp);
-    }
-
-    function testRouterPairGetAmountsOutAndSwapExactETHForTokens() public {
-        router2AddLiquidityETHOwner2();
-
-        Router.route[] memory routes = new Router.route[](1);
-        routes[0] = Router.route(address(WETH), address(taxToken), false);
-
-        assertEq(router2.getAmountsOut(TOKEN_1, routes)[1], _pair.getAmountOut(TOKEN_1, address(WETH)));
-
-        uint256[] memory expectedOutput = router2.getAmountsOut(TOKEN_1, routes);
-        taxToken.approve(address(router2), TOKEN_1);
-        router2.swapExactETHForTokensSupportingFeeOnTransferTokens{value: TOKEN_1}(expectedOutput[1], routes, address(owner), block.timestamp);
+        _pair.approve(address(router2), liquidityAdded);
+        router2.removeLiquidityETHSupportingFeeOnTransferTokens(address(taxToken), false, liquidityAdded, 0, 0, address(this), block.timestamp);
+        uint amountEthAfterRemove = address(this).balance;
+        console2.log('amountTokenAfterRemove', taxToken.balanceOf(address(this)));
+        console2.log('amountEthAfterRemove', amountEthAfterRemove/1e18);
+        assertEq(amountEthAfterRemove, amountEthBefore - 999_004);
 
     }
-
 }
