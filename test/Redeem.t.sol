@@ -33,8 +33,6 @@ contract RedeemTest is BaseTest {
         // Claim tokens
         vm.startPrank(user);
         claim.claim(
-            // Claiming for user
-            user,
             // 100 tokens
             100e18,
             // With valid proof

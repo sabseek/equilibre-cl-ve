@@ -15,6 +15,7 @@ import "contracts/Pair.sol";
 import "contracts/PairFees.sol";
 import "contracts/RewardsDistributor.sol";
 import "contracts/Router.sol";
+import "contracts/Router2.sol";
 import "contracts/Vara.sol";
 import "contracts/VaraLibrary.sol";
 import "contracts/Voter.sol";
@@ -52,6 +53,7 @@ abstract contract BaseTest is Test, TestOwner {
     TestToken stake; // MockERC20 with claimFees() function that returns (0,0)
     PairFactory factory;
     Router router;
+    Router2 router2;
     VaraLibrary lib;
     Pair pair;
     Pair pair2;
@@ -122,6 +124,7 @@ abstract contract BaseTest is Test, TestOwner {
         factory.setFee(true, 1); // set fee back to 0.01% for old tests
         factory.setFee(false, 1);
         router = new Router(address(factory), address(WETH));
+        router2 = new Router2(address(factory), address(WETH));
         assertEq(router.factory(), address(factory));
         lib = new VaraLibrary(address(router));
     }

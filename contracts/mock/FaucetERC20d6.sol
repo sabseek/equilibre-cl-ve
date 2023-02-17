@@ -9,7 +9,7 @@ contract FaucetERC20d6 is ERC20d6, Ownable {
         string memory name,
         string memory symbol,
         uint256 value
-    ) public ERC20d6(name, symbol) {
+    ) ERC20d6(name, symbol) {
         if( value > 0 ){
             _mint(msg.sender, value);
         }

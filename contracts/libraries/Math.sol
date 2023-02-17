@@ -5,9 +5,11 @@ library Math {
     function max(uint a, uint b) internal pure returns (uint) {
         return a >= b ? a : b;
     }
+
     function min(uint a, uint b) internal pure returns (uint) {
         return a < b ? a : b;
     }
+
     function sqrt(uint y) internal pure returns (uint z) {
         if (y > 3) {
             z = y;
@@ -20,16 +22,22 @@ library Math {
             z = 1;
         }
     }
-    function cbrt(uint256 n) internal pure returns (uint256) { unchecked {
-        uint256 x = 0;
-        for (uint256 y = 1 << 255; y > 0; y >>= 3) {
-            x <<= 1;
-            uint256 z = 3 * x * (x + 1) + 1;
-            if (n / y >= z) {
-                n -= y * z;
-                x += 1;
+
+    function cbrt(uint256 n) internal pure returns (uint256) {
+        unchecked {
+            uint256 x = 0;
+            for (uint256 y = 1 << 255; y > 0; y >>= 3) {
+                x <<= 1;
+                uint256 z = 3 * x * (x + 1) + 1;
+                if (n / y >= z) {
+                    n -= y * z;
+                    x += 1;
+                }
             }
+            return x;
         }
-        return x;
-    }}
+    }
+    function sub(uint x, uint y) internal pure returns (uint z) {
+        require((z = x - y) <= x, 'Math: Sub-underflow');
+    }
 }

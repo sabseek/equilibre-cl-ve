@@ -9,7 +9,7 @@ contract FaucetERC20 is ERC20, Ownable {
         string memory name,
         string memory symbol,
         uint256 value
-    ) public ERC20(name, symbol) {
+    ) ERC20(name, symbol) {
         if( value > 0 ){
             _mint(msg.sender, value);
         }
