@@ -268,25 +268,25 @@ async function main() {
     tx = await vara.setMinter(minter.address);
     tx.wait();
 
-    tx = await pairFactory.setPauser(CONFIG.teamMultisig);
+    tx = await pairFactory.setPauser(CONFIG.teamEOA);
     tx.wait();
 
     tx = await escrow.setVoter(voter.address);
     tx.wait();
 
-    tx = await escrow.setTeam(CONFIG.teamMultisig);
+    tx = await escrow.setTeam(CONFIG.teamEOA);
     tx.wait();
 
-    tx = await voter.setGovernor(CONFIG.teamMultisig);
+    tx = await voter.setGovernor(CONFIG.teamEOA);
     tx.wait();
 
-    tx = await voter.setEmergencyCouncil(CONFIG.teamMultisig);
+    tx = await voter.setEmergencyCouncil(CONFIG.teamEOA);
     tx.wait();
 
     tx = await distributor.setDepositor(minter.address);
     tx.wait();
 
-    tx = await governor.setTeam(CONFIG.teamMultisig)
+    tx = await governor.setTeam(CONFIG.teamEOA)
     tx.wait();
 
 
