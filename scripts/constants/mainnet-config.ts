@@ -9,7 +9,7 @@ const mainnet_config = {
   teamEOA: TEAM_EOA,
   teamMultisig: TEAM_MULTISIG,
   emergencyCouncil: "0x7cef2432A2690168Fb8eb7118A74d5f8EfF9Ef55",
-  merkleRoot: "0x66734e7e3a2528b9a170c43d7413392ae1462d9c07392d4261924c047cc3d97d",
+  merkleRoot: "0x6362f8fcdd558ac55b3570b67fdb1d1673bd01bd53302e42f01377f102ac80a9",
   tokenWhitelist: [],
   partnerAddrs: [
     TEAM_MULTISIG, // veVARA
