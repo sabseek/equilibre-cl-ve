@@ -42,14 +42,11 @@ contract Vara is IVara {
         merkleClaim = _merkleClaim;
     }
 
-    // Initial mint: total 82M
-    //  4M for "Genesis" pools
-    // 30M for liquid team allocation (40M excl init veNFT)
-    // 48M for future partners
+    // Initial mint: total 9.7M
     function initialMint(address _recipient) external {
         require(msg.sender == minter && !initialMinted);
         initialMinted = true;
-        _mint(_recipient, 82 * 1e6 * 1e18);
+        _mint(_recipient, 9_700_000 * 1e18);
     }
 
     function approve(address _spender, uint _value) external returns (bool) {
