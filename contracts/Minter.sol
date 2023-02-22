@@ -12,14 +12,14 @@ import "contracts/interfaces/IVotingEscrow.sol";
 
 contract Minter is IMinter {
     uint internal constant WEEK = 86400 * 7; // allows minting once per week (reset every Thursday 00:00 UTC)
-    uint internal constant EMISSION = 2000;
+    uint internal constant EMISSION = 990;
     uint internal constant TAIL_EMISSION = 2;
     uint internal constant PRECISION = 1000;
     IVara public immutable _vara;
     IVoter public immutable _voter;
     IVotingEscrow public immutable _ve;
     IRewardsDistributor public immutable _rewards_distributor;
-    uint public weekly = 1_838_000 * 1e18; // represents a starting weekly emission of 15M VARA (VARA has 18 decimals)
+    uint public weekly = 1_838_000 * 1e18; // represents a starting weekly emission of 1.838M VARA (VARA has 18 decimals)
     uint public active_period;
     uint internal constant LOCK = 86400 * 7 * 52 * 4;
 
