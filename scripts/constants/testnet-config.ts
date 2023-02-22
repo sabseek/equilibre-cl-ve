@@ -7,6 +7,7 @@ const testnetArgs = {
     WETH: WETH,
     USDC: USDC,
     teamEOA: TEAM_EOA,
+    teamTreasure: '0x3a724E0082b0E833670cF762Ea6bd711bcBdFf37',
     teamMultisig: TEAM_MULTISIG,
     emergencyCouncil: TEAM_EOA,
     merkleRoot: "0x6362f8fcdd558ac55b3570b67fdb1d1673bd01bd53302e42f01377f102ac80a9",

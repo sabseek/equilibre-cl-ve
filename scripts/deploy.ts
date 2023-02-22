@@ -259,7 +259,7 @@ async function main() {
 
     let tx;
     // Initialize
-    tx = await vara.initialMint(CONFIG.teamEOA);
+    tx = await vara.initialMint(CONFIG.teamTreasure);
     tx.wait();
 
     tx = await vara.setMerkleClaim(claim.address);
@@ -296,6 +296,7 @@ async function main() {
     tx = await voter.initialize(tokenWhitelist, minter.address);
     tx.wait();
 
+    /*
     let partnerMax = hre.ethers.BigNumber.from("0");
     let partnerAmts: string[] = [];
     for (let i in CONFIG.partnerAmts) {
@@ -309,6 +310,7 @@ async function main() {
         partnerMax
     );
     tx.wait();
+    */
 
     tx = await minter.setTeam(CONFIG.teamMultisig)
     tx.wait();

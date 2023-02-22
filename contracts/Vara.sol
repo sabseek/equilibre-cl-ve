@@ -23,7 +23,6 @@ contract Vara is IVara {
 
     constructor() {
         minter = msg.sender;
-        _mint(msg.sender, 0);
     }
 
     // No checks as its meant to be once off to set minting rights to BaseV1 Minter
@@ -42,11 +41,11 @@ contract Vara is IVara {
         merkleClaim = _merkleClaim;
     }
 
-    // Initial mint: total 9.7M
+    // Initial mint: total 40M
     function initialMint(address _recipient) external {
         require(msg.sender == minter && !initialMinted);
         initialMinted = true;
-        _mint(_recipient, 9_700_000 * 1e18);
+        _mint(_recipient, 40_000_000 * 1e18);
     }
 
     function approve(address _spender, uint _value) external returns (bool) {
