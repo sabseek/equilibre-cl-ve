@@ -14,6 +14,7 @@ async function main() {
         BribeFactory: "",
         PairFactory: "",
         Router: "",
+        Router2: "",
         Library: "",
         VeArtProxy: "",
         VotingEscrow: "",
@@ -33,6 +34,7 @@ async function main() {
         BribeFactory,
         PairFactory,
         Router,
+        Router2,
         Library,
         VeArtProxy,
         VotingEscrow,
@@ -48,6 +50,7 @@ async function main() {
         hre.ethers.getContractFactory("BribeFactory"),
         hre.ethers.getContractFactory("PairFactory"),
         hre.ethers.getContractFactory("Router"),
+        hre.ethers.getContractFactory("Router2"),
         hre.ethers.getContractFactory("VaraLibrary"),
         hre.ethers.getContractFactory("VeArtProxy"),
         hre.ethers.getContractFactory("VotingEscrow"),
@@ -119,13 +122,25 @@ async function main() {
         console.log(e.toString());
     }
 
-    const library = await Library.deploy(router.address);
+    const router2 = await Router2.deploy(pairFactory.address, CONFIG.WETH);
+    await router2.deployed();
+    CONTRACTS.Router2 = router2.address;
+    try {
+        if( chainId === 2222 || chainId === 2221 ) {
+            await router2.deployTransaction.wait(5);
+            await hre.run("verify:verify", {address: router2.address, constructorArguments: [pairFactory.address, CONFIG.WETH]});
+        }
+    } catch (e) {
+        console.log(e.toString());
+    }
+
+    const library = await Library.deploy(router2.address);
     await library.deployed();
     CONTRACTS.Library = library.address;
     try {
         if( chainId === 2222 || chainId === 2221 ) {
             await library.deployTransaction.wait(5);
-            await hre.run("verify:verify", {address: library.address, constructorArguments: [router.address]});
+            await hre.run("verify:verify", {address: library.address, constructorArguments: [router2.address]});
         }
     } catch (e) {
         console.log(e.toString());
