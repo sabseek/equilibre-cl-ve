@@ -12,7 +12,7 @@ const mainnet_config = {
   merkleRoot: "0x66734e7e3a2528b9a170c43d7413392ae1462d9c07392d4261924c047cc3d97d",
   tokenWhitelist: [],
   partnerAddrs: [
-    TEAM_EOA, // VARA
+    TEAM_MULTISIG, // veVARA
   ],
   partnerAmts: [
     ethers.BigNumber.from("30300000"),
