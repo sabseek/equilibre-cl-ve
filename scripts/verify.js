@@ -1,11 +1,11 @@
 
 async function main(){
-    await hre.run("verify:verify", {address: "0x10B7A410D0d66B14ea32f1AAA9dc2d7931f22642",
+    await hre.run("verify:verify", {address: "0x4eB2B9768da9Ea26E3aBe605c9040bC12F236a59",
         constructorArguments: [
-            "0x0439bE66E17c9fd1d7c52Fdc923076B0A1d45294",
-            "0x669C381CFCE6473Ceb4C8a95e2A9a3584297396C",
-            "0xa1c457f68699bEe7D649F647363eEE69BCEF2AaA",
-            "0xBEEdf0AD80B1655DF191A36476854F4F92c78D59"
+            "0x35361C9c2a324F5FB8f3aed2d7bA91CE1410893A",
+            "0xA138FAFc30f6Ec6980aAd22656F2F11C38B56a95",
+            "0xa337E9426d080970b026caFfb4a83D185b85A124",
+            "0x7B14b7288D50810a6982149B107238065AA7fcb7"
         ]});
 }
 

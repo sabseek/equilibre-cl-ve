@@ -193,7 +193,8 @@ async function main() {
     try {
         if( chainId === 2222 || chainId === 2221 ) {
             await voter.deployTransaction.wait(5);
-            await hre.run("verify:verify", {address: distributor.address, constructorArguments: [escrow.address,
+            await hre.run("verify:verify", {address: distributor.address, constructorArguments: [
+                escrow.address,
                     pairFactory.address,
                     gaugeFactory.address,
                     bribeFactory.address]});
