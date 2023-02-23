@@ -50,10 +50,11 @@ task("updateAll", "Voter.updateAll").setAction(async () => {
 });
 
 task("distributeFees", "Voter.distributeFees").setAction(async () => {
-    const cfg = await loadCfg();
+    // const cfg = await loadCfg();
     const Pair = await ethers.getContractFactory("contracts/Pair.sol:Pair")
     const Main = await ethers.getContractFactory("contracts/Voter.sol:Voter")
-    const main = Main.attach(cfg.Voter);
+    //const main = Main.attach(cfg.Voter);
+    const main = Main.attach('0xa8B1E1B4333202355785C90fB434964046ef2E64');
     let pools = [], gauges = [];
     const length = await main.length();
     for (let i = 0; i < length; ++i) {
@@ -69,6 +70,27 @@ task("distributeFees", "Voter.distributeFees").setAction(async () => {
     }
     let tx = await main.distributeFees(gauges);
     console.log(`${tx.hash}`);
+});
+
+task("gauges", "Voter.distributeFees").setAction(async () => {
+    // const cfg = await loadCfg();
+    const Pair = await ethers.getContractFactory("contracts/Pair.sol:Pair")
+    const Main = await ethers.getContractFactory("contracts/Voter.sol:Voter")
+    //const main = Main.attach(cfg.Voter);
+    const main = Main.attach('0xa8B1E1B4333202355785C90fB434964046ef2E64');
+    let pools = [], gauges = [];
+    const length = await main.length();
+    for (let i = 0; i < length; ++i) {
+        const pool = await main.pools(i);
+        const gauge = await main.gauges(pool);
+        const isGauge = await main.isGauge(gauge);
+        const isAlive = await main.isAlive(gauge);
+        const token = await Pair.attach(pool);
+        const symbol = await token.symbol();
+        console.log(` - ${i}: ${gauge} ${symbol}`);
+        pools.push(pool);
+        gauges.push(gauge);
+    }
 });
 
 task("showFees", "showFees").setAction(async () => {
