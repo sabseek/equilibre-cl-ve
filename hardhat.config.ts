@@ -36,13 +36,13 @@ task("gaugeInfo", "Voter.distributeFees").setAction(async () => {
     const length = await main.length();
     let lines = [];
     for (let i = 0; i < length; ++i) {
-        const pool = await main.pools(i);
-        const gaugeAddress = await main.gauges(pool);
+        const poolAddress = await main.pools(i);
+        const gaugeAddress = await main.gauges(poolAddress);
         const gauge = await Gauge.attach(gaugeAddress);
         const isAlive = await main.isAlive(gaugeAddress);
-        const token = await Pair.attach(pool);
-        const symbol = await token.symbol();
-        const fees = await token.fees();
+        const pool = await Pair.attach(poolAddress);
+        const symbol = await pool.symbol();
+        const fees = await pool.fees();
         const internal_bribe = await gauge.internal_bribe();
         const external_bribe = await gauge.external_bribe();
         lines.push('-----------------------------------------------------------')
@@ -51,9 +51,8 @@ task("gaugeInfo", "Voter.distributeFees").setAction(async () => {
         }else{
             lines.push(` - ${i}: Gauge: ${gaugeAddress} ${symbol} [DEAD]`);
         }
-        lines.push(`     Token: ${token}`);
-        lines.push(`     Pool: ${pool}`);
-        lines.push(`     PairFee: ${fees}`);
+        lines.push(`     Pool: ${poolAddress}`);
+        lines.push(`     Pair Fees: ${fees}`);
         lines.push(`     Internal Bribe: ${internal_bribe}`);
         lines.push(`     External Bribe: ${external_bribe}`);
     }

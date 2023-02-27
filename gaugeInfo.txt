@@ -1,98 +1,84 @@
 -----------------------------------------------------------
  - 0: Gauge: 0xA250a3b6a5e5E8b398092537951F8Bd80639ed5c vAMM-VARA/USDC
-     Token: [object Object]
      Pool: 0x9bf1E3ee61cBe5C61E520c8BEFf45Ed4D8212a9A
-     PairFee: 0xa6Fd0dbAc727D79949b7a69Cba5A948ef23C2c33
+     Pair Fees: 0xa6Fd0dbAc727D79949b7a69Cba5A948ef23C2c33
      Internal Bribe: 0xc401adf58F18AF7fD1bf88d5a29a203d3B3783B2
      External Bribe: 0xb692Bb6FEC4AB78C117Ac318c434946862F8aB21
 -----------------------------------------------------------
  - 1: Gauge: 0xCa0d15B4BB6ad730fE40592f9E25A2E052842c92 vAMM-WKAVA/VARA
-     Token: [object Object]
      Pool: 0x7d8100072ba0e4dA8Dc6bd258859a5dC1A452e05
-     PairFee: 0x08a98Be424eA024f5F966749eA51D0c45a1DF45d
+     Pair Fees: 0x08a98Be424eA024f5F966749eA51D0c45a1DF45d
      Internal Bribe: 0x33c9bfF51895d1bbf729677D32e85253850F616c
      External Bribe: 0x4C86a38DEE3eBADB1775Fc13177d890Caa93a3c1
 -----------------------------------------------------------
  - 2: Gauge: 0x50CD5B513999b81dC3f4b70595629F7Cb92FCd32 vAMM-WKAVA/USDC
-     Token: [object Object]
      Pool: 0x5C27a0D0e6d045b5113D728081268642060f7499
-     PairFee: 0xA0A9d089a08D26925E7396242625626f782C2975
+     Pair Fees: 0xA0A9d089a08D26925E7396242625626f782C2975
      Internal Bribe: 0x3e51ebaa81088e67956d2586dDBc32901499E46C
      External Bribe: 0x3D5B3a5c204B321a937AFCF16Be7fDf1b07B176b
 -----------------------------------------------------------
  - 3: Gauge: 0xe45086F996e4473E0973392c1FE97B52575466CF sAMM-DAI/USDC
-     Token: [object Object]
      Pool: 0x9aCAd463537d5b4fb1d7637bB558E79D0441B96f
-     PairFee: 0x0dCBe2ac1FE2876566dc87d78F69C6e7f9d434aF
+     Pair Fees: 0x0dCBe2ac1FE2876566dc87d78F69C6e7f9d434aF
      Internal Bribe: 0xa238D550925f420ED67Fc061a9406696d62ef23D
      External Bribe: 0x21bcEAb798924E94d5ac9927149eE6CD37F54F6A
 -----------------------------------------------------------
  - 4: Gauge: 0x19f7D523f77E08B94828674eFEe8c6B4F62dd176 sAMM-USX/USDC
-     Token: [object Object]
      Pool: 0xcc35FD8B11e66aB413dc520c920F396c2c1096Eb
-     PairFee: 0x4B01C1f78B88aD531D9E46B11dA82bF356580014
+     Pair Fees: 0x4B01C1f78B88aD531D9E46B11dA82bF356580014
      Internal Bribe: 0xAC3C95eB08CA921ec2A404B1240f6FC4Df1388F5
      External Bribe: 0xdabd58c04bC07eEe3B305150eEC556823c90f12e
 -----------------------------------------------------------
  - 5: Gauge: 0x9BaC0D50B263179A047b00d82A1ae009dd04c2e4 vAMM-DAI/VARA
-     Token: [object Object]
      Pool: 0x4c427e9C32c50311F11972Bf9Db0E45204660aFA
-     PairFee: 0x90d406ff9baE5CBDf76B94e33f139E8a1aeAa946
+     Pair Fees: 0x90d406ff9baE5CBDf76B94e33f139E8a1aeAa946
      Internal Bribe: 0xf47f9cF8192b1B30A3dc607b56e5aDEbDCEe350D
      External Bribe: 0x9C12D823438093c964aafb5acaa3b4E653bfC4d8
 -----------------------------------------------------------
  - 6: Gauge: 0x395B15a15d027450123D9690b23179fEF77d1D37 vAMM-ACS/USDC
-     Token: [object Object]
      Pool: 0xAEB77224CA99873F0D88acc6F2594bf985dA5A71
-     PairFee: 0x7457297F754E87bC5a76c1ED4115ffeD05D3Ca44
+     Pair Fees: 0x7457297F754E87bC5a76c1ED4115ffeD05D3Ca44
      Internal Bribe: 0x55e163682fE9FDe85ABc48B9E940d90495Ed8Be2
      External Bribe: 0xf57E7E66F583E8C3653B9975D2cC4e4C156F10dC
 -----------------------------------------------------------
  - 7: Gauge: 0x1869f0d5AE7874344C34A343B0131802677Dc72C vAMM-BIFI/WKAVA
-     Token: [object Object]
      Pool: 0xf96b58442cCb7D1f0889efb5120B428e3DD56C6f
-     PairFee: 0x725BCd71d82BC6F83561f0C7cCfD4d376Bd2C50F
+     Pair Fees: 0x725BCd71d82BC6F83561f0C7cCfD4d376Bd2C50F
      Internal Bribe: 0x37Ad5B34f9456d27c21f18703fB21FB855A02ec7
      External Bribe: 0x004157D8a35Ba8f5a292Dd0969e795731D5CC999
 -----------------------------------------------------------
  - 8: Gauge: 0x3f8185ccE4cB25f17f6BE2B4Ff653C45F0dD4FeD vAMM-WBTC/ETH
-     Token: [object Object]
      Pool: 0xD9eEF9881068141000B4257CCEB72faaba7186f6
-     PairFee: 0xe7cBc0Ea064E0585356343846F15C551445B874B
+     Pair Fees: 0xe7cBc0Ea064E0585356343846F15C551445B874B
      Internal Bribe: 0x583A9D78DA4733B7a1129278836515D79D5C20e1
      External Bribe: 0xd5EB3150BD200CED2C2Ef1490e1076a15C65FDf0
 -----------------------------------------------------------
  - 9: Gauge: 0xe6EE51c8AD615407776dF78B8a993312B4E35519 vAMM-fBOMB/ETH
-     Token: [object Object]
      Pool: 0xAe42F719c5162Fb0EF35C82108770EC6eEB55141
-     PairFee: 0xFBB0Ed0810d07764B5867Bc29c0Dae5D11B41455
+     Pair Fees: 0xFBB0Ed0810d07764B5867Bc29c0Dae5D11B41455
      Internal Bribe: 0xB20F21f548363ACccA4e605DC52eC89B7dFC36cb
      External Bribe: 0x3B8EcdD230DDB283066c5F9CCded792619E62B3A
 -----------------------------------------------------------
  - 10: Gauge: 0xbf257c745A8aDa0BD8F682812F5Fd95FA42bDf66 vAMM-TAROT/USDC
-     Token: [object Object]
      Pool: 0x4B22d524F5301Fb7c042A81C87687Fd420B980e8
-     PairFee: 0xB2aba294C154e0c0F50A41B1c8923353974c0FA9
+     Pair Fees: 0xB2aba294C154e0c0F50A41B1c8923353974c0FA9
      Internal Bribe: 0x85871829275a5ba4c62158edfB9921b0926437A2
      External Bribe: 0xD2C26b66c283Dfca1b4c43fbb1fb5DbD45c3D312
 -----------------------------------------------------------
  - 11: Gauge: 0xe6DE361A58C44e1457067Fd80A19Bc8D2b62434F vAMM-SWKAVA/USDC
-     Token: [object Object]
      Pool: 0xbeBf0a910B92E743336d581C65cb938D8B9628Cd
-     PairFee: 0x932C7f632F604FB5cAe41Ea66D1Cedd77A6fd967
+     Pair Fees: 0x932C7f632F604FB5cAe41Ea66D1Cedd77A6fd967
      Internal Bribe: 0x27c900552CddAA9C1371Def2f24e66c9c6e7B8FB
      External Bribe: 0x8cB9b789ad04B726ce3D60AE8E4E3BF8bc9E6155
 -----------------------------------------------------------
  - 12: Gauge: 0x3e720ec89aE09D5e58358b9787a4284aDdcF1c4B sAMM-SWKAVA/WKAVA
-     Token: [object Object]
      Pool: 0x5a574F12299A5C1a70a0E1dD2fD2E0d2417211a6
-     PairFee: 0xA8A9C437b599fdC7e634E62834ac23Ba906688f6
+     Pair Fees: 0xA8A9C437b599fdC7e634E62834ac23Ba906688f6
      Internal Bribe: 0x68B03aDCE12B85D7467bdAF13B7AC599EE71dB23
      External Bribe: 0x2a3B4Ca06bc4aB82855692Bae7164da29B08b5aC
 -----------------------------------------------------------
  - 13: Gauge: 0xBFaF0Ae0b908e8CF686A80aFf4A9ad58DED39c35 vAMM-fBOMB/VARA
-     Token: [object Object]
      Pool: 0x6e2388378Aa93062F9cFc35bBfd036aF05526cDf
-     PairFee: 0x4BF81Ee9124bEe18A6A430b28F04fDE40C5aDd75
+     Pair Fees: 0x4BF81Ee9124bEe18A6A430b28F04fDE40C5aDd75
      Internal Bribe: 0xa6d35cE9218333c35684373D368E5134B8497A8e
      External Bribe: 0xD1915aa2232b688B0e04f86Db9a6C61185656B55
