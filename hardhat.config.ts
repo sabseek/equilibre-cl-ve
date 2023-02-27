@@ -26,6 +26,42 @@ async function loadCfg() {
     return r;
 }
 
+
+task("gaugeInfo", "Voter.distributeFees").setAction(async () => {
+    const cfg = await loadCfg();
+    const Pair = await ethers.getContractFactory("contracts/Pair.sol:Pair")
+    const Main = await ethers.getContractFactory("contracts/Voter.sol:Voter")
+    const Gauge = await ethers.getContractFactory("contracts/Gauge.sol:Gauge")
+    const main = Main.attach(cfg.Voter);
+    const length = await main.length();
+    let lines = [];
+    for (let i = 0; i < length; ++i) {
+        const pool = await main.pools(i);
+        const gaugeAddress = await main.gauges(pool);
+        const gauge = await Gauge.attach(gaugeAddress);
+        const isAlive = await main.isAlive(gaugeAddress);
+        const token = await Pair.attach(pool);
+        const symbol = await token.symbol();
+        const fees = await token.fees();
+        const internal_bribe = await gauge.internal_bribe();
+        const external_bribe = await gauge.external_bribe();
+        lines.push('-----------------------------------------------------------')
+        if( isAlive ) {
+            lines.push(` - ${i}: Gauge: ${gaugeAddress} ${symbol}`);
+        }else{
+            lines.push(` - ${i}: Gauge: ${gaugeAddress} ${symbol} [DEAD]`);
+        }
+        lines.push(`     Token: ${token}`);
+        lines.push(`     Pool: ${pool}`);
+        lines.push(`     PairFee: ${fees}`);
+        lines.push(`     Internal Bribe: ${internal_bribe}`);
+        lines.push(`     External Bribe: ${external_bribe}`);
+    }
+    const str = lines.join('\n');
+    console.log(str);
+    fs.writeFileSync('./gaugeInfo.txt', str);
+});
+
 task("genKey", "generate a new private key").setAction(async () => {
     const wallet = hre.ethers.Wallet.createRandom();
     console.log(`ADDRESS=${wallet.address}`);
@@ -77,7 +113,7 @@ task("gauges", "Voter.distributeFees").setAction(async () => {
     const Pair = await ethers.getContractFactory("contracts/Pair.sol:Pair")
     const Main = await ethers.getContractFactory("contracts/Voter.sol:Voter")
     //const main = Main.attach(cfg.Voter);
-    const main = Main.attach('0xa8B1E1B4333202355785C90fB434964046ef2E64');
+    const main = Main.attach('0x4eB2B9768da9Ea26E3aBe605c9040bC12F236a59');
     let pools = [], gauges = [];
     const length = await main.length();
     for (let i = 0; i < length; ++i) {
