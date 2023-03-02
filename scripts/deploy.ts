@@ -297,7 +297,7 @@ async function main() {
     tx = await voter.initialize(tokenWhitelist, minter.address);
     tx.wait();
 
-    /*
+
     let partnerMax = hre.ethers.BigNumber.from("0");
     let partnerAmts: string[] = [];
     for (let i in CONFIG.partnerAmts) {
@@ -311,7 +311,7 @@ async function main() {
         partnerMax
     );
     tx.wait();
-    */
+
 
     tx = await minter.setTeam(CONFIG.teamMultisig)
     tx.wait();

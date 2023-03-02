@@ -1,0 +1,38 @@
+
+async function main(){
+    const Gauge = await ethers.getContractFactory("contracts/Gauge.sol:Gauge")
+
+    const gaugeAddress = '0xA250a3b6a5e5E8b398092537951F8Bd80639ed5c';
+    const gauge = await Gauge.attach(gaugeAddress);
+
+    const stake = await gauge.stake();
+    const internal_bribe = await gauge.internal_bribe();
+    const external_bribe = await gauge.external_bribe();
+    const _ve = await gauge._ve();
+    const voter = await gauge.voter();
+    const isForPair = await gauge.isForPair();
+    const rewardsListLength = await gauge.rewardsListLength();
+    let rewards = [];
+    for( let i = 0 ; i < rewardsListLength; i ++ )
+        rewards.push(await gauge.rewards(i));
+    const args = [
+        stake,
+        internal_bribe,
+        external_bribe,
+        _ve,
+        voter,
+        isForPair,
+        rewards
+    ];
+    console.log(args);
+
+
+}
+
+main()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });
+
