@@ -284,6 +284,9 @@ async function main() {
     tx = await voter.setEmergencyCouncil(CONFIG.teamEOA);
     tx.wait();
 
+    tx = await distributor.setTeam(minter.address);
+    tx.wait();
+
     tx = await distributor.setDepositor(minter.address);
     tx.wait();
 

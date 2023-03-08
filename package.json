@@ -35,7 +35,6 @@
   "scripts": {
     "test0": "forge test -vv",
     "test": "forge test -vvvvv",
-    "test1": "forge test -vvvvv --contracts ./test/ExternalBribes.t.sol",
-    "live": "nodemon --exec yarn test -e sol,js,ts"
+    "live": "nodemon --exec yarn test0 -e sol,js,ts"
   }
 }
