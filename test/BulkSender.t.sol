@@ -31,7 +31,7 @@ contract Emission is Test {
 //        address[] memory pools = new address[](1);
 //        pools[0] = address(pool_eth_vara);
 
-        uint total = 100;
+        uint total = 200;
         address[] memory empty = new address[](0);
         address[] memory addresses = new address[](total);
         for( uint i = 1 ; i < total ; i ++ ){
