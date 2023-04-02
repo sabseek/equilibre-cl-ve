@@ -2,7 +2,7 @@
 async function main(){
     const Gauge = await ethers.getContractFactory("contracts/Gauge.sol:Gauge")
 
-    const gaugeAddress = '0xA250a3b6a5e5E8b398092537951F8Bd80639ed5c';
+    const gaugeAddress = '0xa250a3b6a5e5e8b398092537951f8bd80639ed5c';
     const gauge = await Gauge.attach(gaugeAddress);
 
     const stake = await gauge.stake();
@@ -25,6 +25,10 @@ async function main(){
         rewards
     ];
     console.log(args);
+    return;
+    await hre.run("verify:verify", {
+        address: gaugeAddress,
+        constructorArguments: args});
 
 
 }

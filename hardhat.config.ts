@@ -26,6 +26,48 @@ async function loadCfg() {
     return r;
 }
 
+task("bribeInfo", "stats about bribes").setAction(async () => {
+    const cfg = await loadCfg();
+    const IERC20 = await ethers.getContractFactory("contracts/Vara.sol:Vara")
+    const Pair = await ethers.getContractFactory("contracts/Pair.sol:Pair")
+    const Main = await ethers.getContractFactory("contracts/Voter.sol:Voter")
+    const Gauge = await ethers.getContractFactory("contracts/Gauge.sol:Gauge")
+    const ExternalBribe = await ethers.getContractFactory("contracts/ExternalBribe.sol:ExternalBribe")
+    const main = Main.attach(cfg.Voter);
+    const length = await main.length();
+    let lines = [];
+    for (let i = 0; i < length; ++i) {
+        const poolAddress = await main.pools(i);
+        const gaugeAddress = await main.gauges(poolAddress);
+        const gauge = await Gauge.attach(gaugeAddress);
+        const isAlive = await main.isAlive(gaugeAddress);
+        const pool = await Pair.attach(poolAddress);
+        const symbol = await pool.symbol();
+        const fees = await pool.fees();
+        const internal_bribe = await gauge.internal_bribe();
+        const external_bribe = await gauge.external_bribe();
+        const bribe = await ExternalBribe.attach(external_bribe);
+        const rewardsListLength = (await bribe.rewardsListLength()).toString();
+
+        if( isAlive ) {
+            console.log(`${i}: ${symbol}`);
+        }else{
+            console.log(`${i}: ${symbol} [DEAD]`);
+        }
+        for( let j = 0; j < rewardsListLength; j++ ){
+            const reward = await bribe.rewards(j);
+            const token = IERC20.attach(reward);
+            const symbol = await token.symbol();
+            const balanceOfBribe = (await token.balanceOf(internal_bribe)).toString();
+            const decimals = (await token.decimals()).toString();
+            const amount = ethers.utils.formatUnits(balanceOfBribe, decimals);
+            if( balanceOfBribe > 0 )
+                console.log(` - ${symbol}: ${amount}`);
+
+        }
+    }
+});
+
 
 task("gaugeInfo", "Voter.distributeFees").setAction(async () => {
     const cfg = await loadCfg();
@@ -70,7 +112,7 @@ task("genKey", "generate a new private key").setAction(async () => {
 
 task("distro", "Voter.distro").setAction(async () => {
     const cfg = await loadCfg();
-    const Main = await hre.ethers.getContractFactory("Voter")
+    const Main = await hre.ethers.getContractFactory("contracts/Voter.sol:Voter")
     const main = Main.attach(cfg.Voter);
     const tx = await main.distro();
     console.log(`${tx.hash}`);
@@ -287,7 +329,7 @@ const config: HardhatUserConfig = {
             initialBaseFeePerGas: 0,
         },
         mainnet: {
-            url: "https://evm.kava.io",
+            url: "https://evm.data.equilibre.kava.io",
             accounts: [process.env.PRIVATE_KEY!]
         },
         testnet: {

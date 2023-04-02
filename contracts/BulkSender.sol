@@ -36,7 +36,7 @@ contract BulkSender {
             revert NotEnoughApproval();
 
         uint total = recipients.length;
-        for( uint i = 1 ; i < total; i++ ){
+        for( uint i = 0 ; i < total; i++ ){
             address recipient = recipients[i];
             if( recipient == address(0) )
                 revert InvalidRecipient();
