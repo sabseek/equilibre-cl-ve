@@ -142,3 +142,75 @@
      Pair Fees: 0xC0c8EdF8b65ee3Cb346Aaf4F7FCEad75f6A3CE01
      Internal Bribe: 0x0f788a3677F125Ef046A3E68c07Cff67bCFA0B17
      External Bribe: 0x2587840a601119361aB7c8efE0AAf374CE8B5038
+-----------------------------------------------------------
+ - 24: Gauge: 0xD9e2c0b2538b088360bEfb3FdAd5892b210B29aC vAMM-WBTC/VARA
+     Pool: 0x2647B59C30A9Bf19D8AeEDD9555E005675E127a0
+     Pair Fees: 0xe553dF7cDD6Eb2FD3F504c4fD325b387E9d57364
+     Internal Bribe: 0x1342EF6D5bB97c6f86be9f4d98B0aE510b62C27d
+     External Bribe: 0xb2d45082f6a84a29a58f6df55F2d16057722d56E
+-----------------------------------------------------------
+ - 25: Gauge: 0xd0B747F0B6aA4DDB406b5505bCe64A21f9385bbE vAMM-USX/VARA
+     Pool: 0xC19E44de5617a2535443AE6f8bFdf8f9346a038A
+     Pair Fees: 0x6620d83225259435923A97A5E5aF380c4894369F
+     Internal Bribe: 0x5AA613822F7D6Bb67089c2829c8c61a9fB7286f0
+     External Bribe: 0x7aAeE46917379Be85824B919DBcaD0ED801Ebe0a
+-----------------------------------------------------------
+ - 26: Gauge: 0xD8fd64DD6166D998966Ebc1Ad830481AC9858083 vAMM-WKAVA/USX
+     Pool: 0x7ACe223820a84C5FCeb9Cb76A6a5aEcE98582983
+     Pair Fees: 0xae922Aa564644D57012323b550f2F4aac09424DC
+     Internal Bribe: 0x2D770b84a99c9AC41E5e1A46b899a334A5F72Cb7
+     External Bribe: 0xE28BDe61949DA9628F1ee32cdc80eF9f7E54657d
+-----------------------------------------------------------
+ - 27: Gauge: 0x0AbF4Efe42d762292F5F7E9A8Aa617e8585D66B0 vAMM-LQDR/MAI
+     Pool: 0x04e063939aF6Fe404C19F0aad4A8e40186e6bDeC
+     Pair Fees: 0x30B48766c9ffAcC7b20AAEe3d9Fd76cF0F505117
+     Internal Bribe: 0x19B1E9D0E2bB01C5Aa20143cA43C01c99Fa2a98F
+     External Bribe: 0xCfcc02704fcA5d295C6d7B6Ac530aE15Ea3CFb47
+-----------------------------------------------------------
+ - 28: Gauge: 0x358475CEaC9Ad8fAb2a812D20Dd56990c481858E vAMM-BNB/VARA
+     Pool: 0x530B9201E1Dbc11b596367428e5D344EbB636630
+     Pair Fees: 0x4478E3aFB64B85d0A67A72e456A3381F94018802
+     Internal Bribe: 0xAFce5AbF846d477549590392d9C82F129872927a
+     External Bribe: 0xbC8D9E4dCC70E4eCEF56e1Cd79210a0130eA433D
+-----------------------------------------------------------
+ - 29: Gauge: 0xc28Fcef5970fD23E5BFCDC31cE1Ba72ef98Cc70a sAMM-axlUSDC/USDC
+     Pool: 0x7a08708E06A118F2B22C9000A990155bdEdC31d1
+     Pair Fees: 0x628de49fe709f08c8eAE90d79b935055f098dd9e
+     Internal Bribe: 0x15895c2666E969B602D3261445Ee2B9f574075D9
+     External Bribe: 0xfCD9C226580aa7eC2B87fCE64397B04A2D460b2D
+-----------------------------------------------------------
+ - 30: Gauge: 0xa075C72aDdfaBb789A7325D00259DA13d25EAfA2 vAMM-xSHRAP/ETH
+     Pool: 0xB5B05996a407e290BbF9807dB5eb52a45bcAa36d
+     Pair Fees: 0xfA26b3Abb270dB5687b6777B69039935da9C05Ee
+     Internal Bribe: 0x3F74683276Ad71E007137E8A7d3719510c176F9b
+     External Bribe: 0x2D2DC750C297FEb57553b92D840B03fce0bd09e9
+-----------------------------------------------------------
+ - 31: Gauge: 0xdDC2559a6aAda1502Bd9484dFa928DE23C595021 vAMM-SLM/USDC
+     Pool: 0xF5c8931D63e2B4bf57d06a35c9d72bC576d3a910
+     Pair Fees: 0xE7609f20e8553A6759CcfcA676AaaFe5da8B3Cb7
+     Internal Bribe: 0x25940fAcfF54C7bDeCb3482dde150370F0F03755
+     External Bribe: 0xC53fC2093Bb35BfF90D015927857b580e9356FB9
+-----------------------------------------------------------
+ - 32: Gauge: 0x6b67a5Bdf835a1c75cE42441f1A59Cc41526f68D vAMM-VARA/axlUSDC
+     Pool: 0x34e253763D14e9bd886Bc2B00566FB1F3cbeB83f
+     Pair Fees: 0xf8A9a32eae40cBb2d0445F82338D8A3D95555DfC
+     Internal Bribe: 0xBf6b952f158943f75b1f66a3c275AFA55fBF6FAf
+     External Bribe: 0x5a78715DdD73423Aa26e476093E131b17EfDEf73
+-----------------------------------------------------------
+ - 33: Gauge: 0xBdCd19CD1D54b87afB2Ef3cA6570045eAF2e4A10 vAMM-WKAVA/MARE
+     Pool: 0x5d65fa1eB5eeb5da4a384F08B8739036E8aF0304
+     Pair Fees: 0xe52E9dBc46E625e01aC0bf09d5795Bb0d9e50ed0
+     Internal Bribe: 0x9D66bBDAd1e90Ebc0B51e261a8b30e497f201D5d
+     External Bribe: 0xf438994622F999cEE4479bd62D85DeE5AcDD0243
+-----------------------------------------------------------
+ - 34: Gauge: 0x1DDd88aB59bf97183f3a0bF2bA3f6b84A79ccd03 vAMM-axlATOM/ETH
+     Pool: 0x03A6f0506012eAD969f114dA959dD522367C8F13
+     Pair Fees: 0x52423882973dB9B54b92EB6090268A274EC9a03D
+     Internal Bribe: 0xAec124Ec4FE8B56214d2Eac0D16ADA33F9fa5B44
+     External Bribe: 0x5fe310cC4CD33218F5affbc274E6617315Bdc824
+-----------------------------------------------------------
+ - 35: Gauge: 0xc45591Bc5Bae2f19271bDAe7301eaF599E775571 vAMM-YFX/USDC
+     Pool: 0x90442f0E609037673019a000f284a5b21b49b0D7
+     Pair Fees: 0x7b16Ea9f66CC8f1b08fDAC9ed2BE714AE0f5f1E0
+     Internal Bribe: 0xA344b3ACAcb58c46771D18734C250ae4c856021a
+     External Bribe: 0xBA65c688DE6c97B8ac72dE462d740B8462e40744
