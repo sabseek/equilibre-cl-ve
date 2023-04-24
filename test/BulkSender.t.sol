@@ -12,7 +12,7 @@ interface CheatCodes {
     function addr(uint256) external returns (address);
 }
 
-contract Emission is Test {
+contract BulkSenderTest is Test {
 
     MockERC20 usdc;
     BulkSender sender;
@@ -24,18 +24,12 @@ contract Emission is Test {
         // ---
     }
 
-    function testExec() public {
-//        vm.warp(block.timestamp + 86400 * 7);
-//        vm.roll(block.number + 1);
-
-//        address[] memory pools = new address[](1);
-//        pools[0] = address(pool_eth_vara);
-
+    function testSendERC20() public {
         uint total = 200;
         address[] memory empty = new address[](0);
         address[] memory addresses = new address[](total);
-        for( uint i = 1 ; i < total ; i ++ ){
-            addresses[i] = cheats.addr(i);
+        for( uint i = 0 ; i < total ; i ++ ){
+            addresses[i] = cheats.addr(i+1);
         }
 
         address[] memory invalidRecipient = new address[](2);
@@ -69,6 +63,42 @@ contract Emission is Test {
         sender.sendSameAmountToMany( IERC20(address(usdc)), addresses, amount);
 
         assertEq(usdc.balanceOf(addresses[1]), amount);
+
+    }
+
+    function testSendValue() public {
+        uint total = 200;
+        address[] memory empty = new address[](0);
+        address[] memory addresses = new address[](total);
+        for( uint i = 0 ; i < total ; i ++ ){
+            addresses[i] = cheats.addr(i+1);
+        }
+
+        address[] memory invalidRecipient = new address[](2);
+        invalidRecipient[0] = address(0); // skip
+        invalidRecipient[1] = address(0);
+
+        uint amount = 0.1 ether;
+        uint value = amount * total;
+        uint lowAmount = 0.1 ether;
+//        console2.log('balance', address(this).balance/1e18);
+//        console2.log('amount', amount/1e18);
+
+        vm.expectRevert(abi.encodePacked(BulkSender.InvalidRecipients.selector));
+        sender.sendSameAmountToManyInFee{value: value}(empty, amount);
+
+        vm.expectRevert(abi.encodePacked(BulkSender.InvalidAmount.selector));
+        sender.sendSameAmountToManyInFee{value: value}(addresses, 0);
+
+        vm.expectRevert(abi.encodePacked(BulkSender.NotEnoughBalance.selector));
+        sender.sendSameAmountToManyInFee{value: lowAmount}(addresses, amount);
+
+        vm.expectRevert(abi.encodePacked(BulkSender.InvalidRecipient.selector));
+        sender.sendSameAmountToManyInFee{value: value}(invalidRecipient, amount);
+
+        sender.sendSameAmountToManyInFee{value: value}(addresses, amount);
+
+        assertEq(address(addresses[1]).balance, amount);
 
     }
 

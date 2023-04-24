@@ -2,6 +2,8 @@
 pragma solidity 0.8.13;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {console2} from "forge-std/console2.sol";
+
 contract BulkSender {
 
     using SafeERC20 for IERC20;
@@ -11,6 +13,36 @@ contract BulkSender {
     error InvalidToken();
     error NotEnoughBalance();
     error NotEnoughApproval();
+    error FailedToSendValue();
+
+    /**
+     * @dev Use this function to send same amount of an erc20 token to a list of users.
+     * @param recipients: the list of users addresses that will receive the token.
+     * @param amount: the amount to be sent to each user.
+     */
+    function sendSameAmountToManyInFee(address[] memory recipients, uint amount) external payable{
+
+        if( recipients.length == 0 )
+            revert InvalidRecipients();
+
+        if( amount == 0 )
+            revert InvalidAmount();
+
+        if( recipients.length * amount > msg.value ){
+            revert NotEnoughBalance();
+        }
+
+        uint total = recipients.length;
+        for( uint i = 0 ; i < total; i++ ){
+            address recipient = recipients[i];
+            if( recipient == address(0) )
+                revert InvalidRecipient();
+            (bool sent,) = recipient.call{value: amount}("");
+            if( ! sent )
+                revert FailedToSendValue();
+        }
+
+    }
 
     /**
      * @dev Use this function to send same amount of an erc20 token to a list of users.
