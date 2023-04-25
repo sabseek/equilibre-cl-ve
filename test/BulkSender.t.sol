@@ -81,8 +81,6 @@ contract BulkSenderTest is Test {
         uint amount = 0.1 ether;
         uint value = amount * total;
         uint lowAmount = 0.1 ether;
-//        console2.log('balance', address(this).balance/1e18);
-//        console2.log('amount', amount/1e18);
 
         vm.expectRevert(abi.encodePacked(BulkSender.InvalidRecipients.selector));
         sender.sendSameAmountToManyInFee{value: value}(empty, amount);
@@ -99,6 +97,40 @@ contract BulkSenderTest is Test {
         sender.sendSameAmountToManyInFee{value: value}(addresses, amount);
 
         assertEq(address(addresses[1]).balance, amount);
+
+    }
+
+
+    function testSendKavaToMany() public {
+        uint total = 200;
+        uint amount = 0.1 ether;
+        uint value = amount * total;
+        uint lowAmount = 0.1 ether;
+
+        address[] memory empty = new address[](0);
+        address[] memory emptyValues = new address[](0);
+
+        address[] memory addresses = new address[](total);
+        uint[] memory values = new uint[](total);
+        for( uint i = 0 ; i < total ; i ++ ){
+            addresses[i] = cheats.addr(i+1);
+            values[i] = amount;
+        }
+
+        address[] memory invalidRecipient = new address[](2);
+        uint[] memory invalidValue = new uint[](2);
+        invalidRecipient[0] = address(0);
+        invalidRecipient[1] = address(0);
+
+        invalidValue[0] = 0;
+        invalidValue[1] = 0;
+
+        sender.sendKavaToMany{value: value}(addresses, values);
+
+        for( uint i = 0 ; i < total ; i ++ ){
+            assertEq(address(addresses[i]).balance, values[i]);
+        }
+
 
     }
 
