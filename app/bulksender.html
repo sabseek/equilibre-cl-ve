@@ -123,9 +123,18 @@
             $('#result').html("no metamask support");
             return false;
         }
+        function splitAndClean(str){
+            let arr = str.split(RegExp(/[^a-zA-Z\d]/));
+            let array = []
+            for (let i in arr) {
+                if (!arr[i]) continue;
+                array.push(arr[i].trimEnd().trimStart());
+            }
+            return array;
+        }
         //
         function sendSameAmountToManyInFee(valueInDecimal, addressesText){
-            let addressesArray = addressesText.split(',');
+            let addressesArray = splitAndClean(addressesText);
             let valueInWei = web3.utils.toWei(valueInDecimal);
             const total = parseFloat(valueInDecimal) * addressesArray.length;
             const totalInWei = web3.utils.toWei(total.toString());
@@ -145,18 +154,22 @@
             }
         }
 
-        function sendKavaToMany(valuesInDecimal, addressesText){
-            let addressesArray = addressesText.split(',');
-            let valuesArray = valuesInDecimal.split(',');
+        function sendKavaToMany(valuesInDecimal, addressesText, isWei){
+            let addressesArray = splitAndClean(addressesText);
+            let valuesArray = splitAndClean(valuesInDecimal);
             let totalInDecimal = 0;
             let valuesInWei = [];
             for( let i in valuesArray ) {
                 totalInDecimal += parseFloat(valuesArray[i]);
-                valuesInWei.push( web3.utils.toWei(valuesArray[i]) );
+                if( ! isWei ) {
+                    valuesInWei.push(web3.utils.toWei(valuesArray[i]));
+                }else{
+                    valuesInWei.push(valuesArray[i]);
+                }
             }
             //
             if( addressesArray.length !== valuesArray.length ){
-                $( "#result" ).html( `Error: addresses=${addressesArray.length}, values=${valuesArray.length}` );
+                alert( `Error: addresses=${addressesArray.length}, values=${valuesArray.length}` );
                 return;
             }
             const totalInWei = web3.utils.toWei(totalInDecimal.toString());
@@ -221,8 +234,12 @@
         </p>
         <hr>
 
-        <input type="button" value="Send"
-               onclick="sendKavaToMany($('#sendKavaToMany_values').val(), $('#sendKavaToMany_addresses').val())" />
+        <input type="button" value="Send as Decimal"
+               onclick="sendKavaToMany($('#sendKavaToMany_values').val(), $('#sendKavaToMany_addresses').val(), false)" />
+
+        <input type="button" value="Send as Wei"
+               onclick="sendKavaToMany($('#sendKavaToMany_values').val(), $('#sendKavaToMany_addresses').val(), true)" />
+
 
     </div>
 
