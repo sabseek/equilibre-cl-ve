@@ -18,102 +18,7 @@
                 await window.ethereum.send('eth_requestAccounts');
                 window.web3 = new Web3(window.ethereum);
                 const account = await window.web3.eth.getAccounts();
-                const jsonInterface = [
-                    {
-                        "inputs": [],
-                        "name": "FailedToSendValue",
-                        "type": "error"
-                    },
-                    {
-                        "inputs": [],
-                        "name": "InvalidAmount",
-                        "type": "error"
-                    },
-                    {
-                        "inputs": [],
-                        "name": "InvalidRecipient",
-                        "type": "error"
-                    },
-                    {
-                        "inputs": [],
-                        "name": "InvalidRecipients",
-                        "type": "error"
-                    },
-                    {
-                        "inputs": [],
-                        "name": "InvalidToken",
-                        "type": "error"
-                    },
-                    {
-                        "inputs": [],
-                        "name": "NotEnoughApproval",
-                        "type": "error"
-                    },
-                    {
-                        "inputs": [],
-                        "name": "NotEnoughBalance",
-                        "type": "error"
-                    },
-                    {
-                        "inputs": [
-                            {
-                                "internalType": "address[]",
-                                "name": "recipients",
-                                "type": "address[]"
-                            },
-                            {
-                                "internalType": "uint256[]",
-                                "name": "amount",
-                                "type": "uint256[]"
-                            }
-                        ],
-                        "name": "sendKavaToMany",
-                        "outputs": [],
-                        "stateMutability": "payable",
-                        "type": "function"
-                    },
-                    {
-                        "inputs": [
-                            {
-                                "internalType": "contract IERC20",
-                                "name": "token",
-                                "type": "address"
-                            },
-                            {
-                                "internalType": "address[]",
-                                "name": "recipients",
-                                "type": "address[]"
-                            },
-                            {
-                                "internalType": "uint256",
-                                "name": "amount",
-                                "type": "uint256"
-                            }
-                        ],
-                        "name": "sendSameAmountToMany",
-                        "outputs": [],
-                        "stateMutability": "nonpayable",
-                        "type": "function"
-                    },
-                    {
-                        "inputs": [
-                            {
-                                "internalType": "address[]",
-                                "name": "recipients",
-                                "type": "address[]"
-                            },
-                            {
-                                "internalType": "uint256",
-                                "name": "amount",
-                                "type": "uint256"
-                            }
-                        ],
-                        "name": "sendSameAmountToManyInFee",
-                        "outputs": [],
-                        "stateMutability": "payable",
-                        "type": "function"
-                    }
-                ];
+                const jsonInterface = [{"type":"error","name":"FailedToSendValue","inputs":[]},{"type":"error","name":"InvalidAmount","inputs":[]},{"type":"error","name":"InvalidRecipient","inputs":[]},{"type":"error","name":"InvalidRecipients","inputs":[]},{"type":"error","name":"InvalidToken","inputs":[]},{"type":"error","name":"NotEnoughApproval","inputs":[]},{"type":"error","name":"NotEnoughBalance","inputs":[]},{"type":"function","stateMutability":"payable","outputs":[],"name":"sendKavaToMany","inputs":[{"type":"address[]","name":"recipients","internalType":"address[]"},{"type":"uint256[]","name":"amount","internalType":"uint256[]"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"sendSameAmountToMany","inputs":[{"type":"address","name":"token","internalType":"contract IERC20"},{"type":"address[]","name":"recipients","internalType":"address[]"},{"type":"uint256","name":"amount","internalType":"uint256"}]},{"type":"function","stateMutability":"payable","outputs":[],"name":"sendSameAmountToManyInFee","inputs":[{"type":"address[]","name":"recipients","internalType":"address[]"},{"type":"uint256","name":"amount","internalType":"uint256"}]}];
                 const contractAddress = '0x65e21BF68a90eead2e935D8774A171c189F5e940';
                 ACCOUNT = account[0];
                 CONTRACT = new window.web3.eth.Contract(jsonInterface, contractAddress );
@@ -124,7 +29,12 @@
             return false;
         }
         function splitAndClean(str){
-            let arr = str.split(RegExp(/[^a-zA-Z\d]/));
+            let arr = str
+                .replaceAll('[','')
+                .replaceAll(']','')
+                .replaceAll('"','')
+                .replaceAll("'",'')
+                .split(RegExp(/[^a-zA-Z\d\\.]+/));
             let array = []
             for (let i in arr) {
                 if (!arr[i]) continue;
@@ -160,11 +70,12 @@
             let totalInDecimal = 0;
             let valuesInWei = [];
             for( let i in valuesArray ) {
-                totalInDecimal += parseFloat(valuesArray[i]);
+                const value= parseFloat(valuesArray[i]);
+                totalInDecimal += value;
                 if( ! isWei ) {
-                    valuesInWei.push(web3.utils.toWei(valuesArray[i]));
+                    valuesInWei.push(web3.utils.toWei(value.toString()));
                 }else{
-                    valuesInWei.push(valuesArray[i]);
+                    valuesInWei.push(value.toString());
                 }
             }
             //
@@ -175,6 +86,9 @@
             const totalInWei = web3.utils.toWei(totalInDecimal.toString());
             try {
                 const args = {from: ACCOUNT, value: totalInWei};
+                console.log('addressesArray', addressesArray);
+                console.log('valuesInWei', valuesInWei);
+                console.log('args', args);
                 CONTRACT.methods.sendKavaToMany(addressesArray, valuesInWei).estimateGas(args,
                     async function(error, gasAmount){
                         if( error ){
