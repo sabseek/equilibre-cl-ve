@@ -79,17 +79,17 @@ contract MinterTest is BaseTest {
         initializeVotingEscrow();
 
         minter.update_period();
-        assertEq(minter.weekly(), 15 * TOKEN_1M); // 15M
+        assertEq(minter.weekly(), 1_838_000 * 1e18); // 15M
         vm.warp(block.timestamp + 86400 * 7);
         vm.roll(block.number + 1);
         minter.update_period();
         assertEq(distributor.claimable(1), 0);
-        assertLt(minter.weekly(), 15 * TOKEN_1M); // <15M for week shift
+        assertLt(minter.weekly(), 1_838_000 * 1e18); // <15M for week shift
         vm.warp(block.timestamp + 86400 * 7);
         vm.roll(block.number + 1);
         minter.update_period();
         uint256 claimable = distributor.claimable(1);
-        assertGt(claimable, 128115516517529);
+        assertGt(claimable, 32141062267140);
         distributor.claim(1);
         assertEq(distributor.claimable(1), 0);
 

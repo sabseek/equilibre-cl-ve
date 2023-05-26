@@ -103,7 +103,7 @@ contract TestOwner {
         Minter(_minter).acceptTeam();
     }
 
-    function setTeamEmissions(address _minter, uint256 _rate) public {
+    function setTeamEmissions(address _minter, uint256 _rate) external {
         Minter(_minter).setTeamRate(_rate);
     }
 
