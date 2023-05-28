@@ -30,6 +30,5 @@ scripts/xbribes
 Flattened.sol
 
 .idea
-
-
-scripts
+.DS_Store
+deploy.ts
