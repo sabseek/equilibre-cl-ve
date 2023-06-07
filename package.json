@@ -1,7 +1,8 @@
 {
-  "name": "vara",
-  "version": "1.0.0",
-  "description": "Base layer AMM on Optimism",
+  "name": "Equilibre",
+  "version": "1.0.1",
+  "description": "Base layer AMM on KAVA",
+  "license": "MIT",
   "directories": {
     "lib": "lib"
   },
