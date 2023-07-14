@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import 'contracts/interfaces/IPairFactory.sol';
 import 'contracts/Pair.sol';
 
-contract PairFactory is IPairFactory {
+contract PairFactory is Initializable, IPairFactory {
 
     bool public isPaused;
     address public pauser;
@@ -26,7 +27,7 @@ contract PairFactory is IPairFactory {
 
     event PairCreated(address indexed token0, address indexed token1, bool stable, address pair, uint);
 
-    constructor() {
+    function initialize() external initializer {
         pauser = msg.sender;
         isPaused = false;
         feeManager = msg.sender;
