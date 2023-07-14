@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
 import 'contracts/libraries/Math.sol';
 import 'contracts/interfaces/IERC20.sol';
 import 'contracts/interfaces/IPair.sol';
@@ -10,11 +12,12 @@ import 'contracts/interfaces/IWETH.sol';
 import 'contracts/Router.sol';
 import 'contracts/interfaces/IBaseV1Pair.sol';
 
-contract Router2 is Router {
+contract Router2 is Initializable, Router {
     using Math for uint;
-    constructor(address _factory, address _weth)
-    Router(_factory, _weth)
-    {
+    using SafeERC20Upgradeable for IERC20;
+
+    function initialize(address _factory, address _weth) external initializer {
+        __Router_init(_factory, _weth);
     }
 
     // **** REMOVE LIQUIDITY (supporting fee-on-transfer tokens)****

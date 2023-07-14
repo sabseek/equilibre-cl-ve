@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import 'contracts/libraries/Math.sol';
 import 'contracts/interfaces/IBribe.sol';
 import 'contracts/interfaces/IBribeFactory.sol';
@@ -13,13 +14,13 @@ import 'contracts/interfaces/IPairFactory.sol';
 import 'contracts/interfaces/IVoter.sol';
 import 'contracts/interfaces/IVotingEscrow.sol';
 
-contract Voter is IVoter {
+contract Voter is Initializable, IVoter {
 
-    address public immutable _ve; // the ve token that governs these contracts
-    address public immutable factory; // the PairFactory
-    address internal immutable base;
-    address public immutable gaugefactory;
-    address public immutable bribefactory;
+    address public _ve; // the ve token that governs these contracts
+    address public factory; // the PairFactory
+    address internal base;
+    address public gaugefactory;
+    address public bribefactory;
     uint internal constant DURATION = 7 days; // rewards are released over 7 days
     address public minter;
     address public governor; // should be set to an IGovernor
@@ -54,7 +55,12 @@ contract Voter is IVoter {
     event Detach(address indexed owner, address indexed gauge, uint tokenId);
     event Whitelisted(address indexed whitelister, address indexed token);
 
-    constructor(address __ve, address _factory, address  _gauges, address _bribes) {
+    function initialize(
+        address __ve, 
+        address _factory, 
+        address  _gauges, 
+        address _bribes
+    ) external initializer {
         _ve = __ve;
         factory = _factory;
         base = IVotingEscrow(__ve).token();
@@ -80,7 +86,7 @@ contract Voter is IVoter {
         _;
     }
 
-    function initialize(address[] memory _tokens, address _minter) external {
+    function init(address[] memory _tokens, address _minter) external {
         require(msg.sender == minter);
         for (uint i = 0; i < _tokens.length; i++) {
             _whitelist(_tokens[i]);
