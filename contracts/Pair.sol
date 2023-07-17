@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import 'contracts/libraries/Math.sol';
 import 'contracts/interfaces/IERC20.sol';
 import 'contracts/interfaces/IPair.sol';
@@ -9,7 +10,7 @@ import 'contracts/factories/PairFactory.sol';
 import 'contracts/PairFees.sol';
 
 // The base pair of pools, either stable or volatile
-contract Pair is IPair {
+contract Pair is Initializable, IPair {
 
     string public name;
     string public symbol;
@@ -30,10 +31,10 @@ contract Pair is IPair {
 
     uint internal constant MINIMUM_LIQUIDITY = 10**3;
 
-    address public immutable token0;
-    address public immutable token1;
-    address public immutable fees;
-    address immutable factory;
+    address public token0;
+    address public token1;
+    address public fees;
+    address factory;
 
     // Structure to capture time period obervations every 30 minutes, used for local oracles
     struct Observation {
@@ -87,9 +88,11 @@ contract Pair is IPair {
     event Transfer(address indexed from, address indexed to, uint amount);
     event Approval(address indexed owner, address indexed spender, uint amount);
 
-    constructor() {
-        factory = msg.sender;
-        (address _token0, address _token1, bool _stable) = PairFactory(msg.sender).getInitializable();
+    function initialize(
+        address _factory
+    ) external initializer {
+        factory = _factory;
+        (address _token0, address _token1, bool _stable) = PairFactory(factory).getInitializable();
         (token0, token1, stable) = (_token0, _token1, _stable);
         fees = address(new PairFees(_token0, _token1));
         if (_stable) {
