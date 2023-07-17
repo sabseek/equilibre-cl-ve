@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 //import "forge-std/console2.sol";
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import 'contracts/libraries/Math.sol';
 import 'contracts/interfaces/IBribe.sol';
 import 'contracts/interfaces/IERC20.sol';
@@ -8,9 +9,9 @@ import 'contracts/interfaces/IVoter.sol';
 import 'contracts/interfaces/IVotingEscrow.sol';
 
 // Bribes pay out rewards for a given pool based on the votes that were received from the user (goes hand in hand with Voter.vote())
-contract InternalBribe is IBribe {
-    address public immutable voter; // only voter can modify balances (since it only happens on vote())
-    address public immutable _ve; // 天使のたまご
+contract InternalBribe is Initializable, IBribe {
+    address public voter; // only voter can modify balances (since it only happens on vote())
+    address public _ve; // 天使のたまご
 
     uint internal constant DURATION = 7 days; // rewards are released over the voting period
     uint internal constant MAX_REWARD_TOKENS = 16;
@@ -52,7 +53,7 @@ contract InternalBribe is IBribe {
     event NotifyReward(address indexed from, address indexed reward, uint epoch, uint amount);
     event ClaimRewards(address indexed from, address indexed reward, uint amount);
 
-    constructor(address _voter, address[] memory _allowedRewardTokens) {
+    function initialize(address _voter, address[] memory _allowedRewardTokens) external initializer {
         voter = _voter;
         _ve = IVoter(_voter)._ve();
 
